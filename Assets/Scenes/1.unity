@@ -7050,6 +7050,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4565890281697841356, guid: 558ddb44868f97e4c98012f57e91eb5d,
+        type: 3}
+      propertyPath: dashVelocity.x
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 4565890281697841395, guid: 558ddb44868f97e4c98012f57e91eb5d,
         type: 3}
       propertyPath: m_Name

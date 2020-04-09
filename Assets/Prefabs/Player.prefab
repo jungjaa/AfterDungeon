@@ -219,7 +219,7 @@ MonoBehaviour:
   horizontalSpeed: 13
   originGravity: 6
   jumpVelocity: {x: 13, y: 20}
-  dashVelocity: {x: 30, y: 5}
+  dashVelocity: {x: 40, y: 5}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8704
