@@ -464,8 +464,16 @@ public class PlayerMovement : MonoBehaviour
     {
         isJumping = true;
 
-        yield return new WaitForSeconds(duration);
-
+        float startTime = Time.time;
+        while (Time.time - startTime < duration)
+        {
+            if (isGrounded && rb2D.velocity.y<=0)
+            {
+                Debug.Log("ground break!");
+                break;
+            }
+            yield return null;
+        }
         isJumping = false;
     }
 
