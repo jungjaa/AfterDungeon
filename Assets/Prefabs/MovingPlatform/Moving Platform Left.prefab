@@ -96,11 +96,14 @@ MonoBehaviour:
   isItStart: 0
   endPoint: {fileID: 0}
   directionType: 0
-  velocity: 8
+  velocity: 12
   returnVelocity: 3
-  mildJumpTime: 0
-  rider: {fileID: 0}
-  movingObjectPrefab: {fileID: 5469749272560323357, guid: 9cb8b8c51cbe90c45a56b70162270f01,
+  size: 2
+  mildPlatformTime: 0.1
+  player: {fileID: 0}
+  movingObjectPrefab: {fileID: 2025487374038293967, guid: 9cb8b8c51cbe90c45a56b70162270f01,
     type: 3}
   movingObject: {fileID: 0}
   status: 1
+  direction: {x: 0, y: 0, z: 0}
+  accel: {x: 0, y: 0}

@@ -213,6 +213,8 @@ MonoBehaviour:
   isJumping: 0
   isDashed: 0
   isFired: 0
+  isPlatform: 0
+  platformVelocity: {x: 0, y: 0}
   wallState: 0
   groundAccel: 200
   airAccel: 100
@@ -222,7 +224,7 @@ MonoBehaviour:
   dashVelocity: {x: 40, y: 5}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 8704
+    m_Bits: 25088
   groundChecker: {fileID: 4565890282954734530}
   fireChecker: {fileID: 4565890281999262193}
   projectilePrefab: {fileID: 2480807860061347004, guid: 65eb601f96614e34bbffcb36f1fec34a,

@@ -11,6 +11,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool isJumping;
     [SerializeField] private bool isDashed;
     [SerializeField] private bool isFired;
+    [SerializeField] public bool isPlatform;
+
+
+    [HideInInspector] public MovingPlatform movingPlatform;
+    [HideInInspector] public Vector2 platformVelocity;
+
     private bool isDashing;
     [SerializeField] private WallState wallState;
 
@@ -166,6 +172,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (colliders[i].gameObject != gameObject)
             {
+                if (colliders[i].gameObject.layer != LayerMask.NameToLayer("MovingPlatform"))
+                    platformVelocity = new Vector2(0f, 0f);
                 lastGroundedTime = Time.time;
                 break;
             }
@@ -356,7 +364,7 @@ public class PlayerMovement : MonoBehaviour
 
         Flip(dir);
 
-        float targetV = dir * horizontalSpeed;
+        float targetV = dir * horizontalSpeed + platformVelocity.x;
         float nowV = rb2D.velocity.x;
 
         if (nowV == targetV) return;
@@ -377,6 +385,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyJumpVelocity(float x, float y, float duration = 0f)
     {
+        if(isPlatform && movingPlatform.status==Status.wait_jump)// 움직이는 플랫폼 마지막에 멈춰있는 구간동안 관대한 점프 판정
+        {
+            if (movingPlatform.directionType == Direction.x)
+                x += (-1)*movingPlatform.velocity * movingPlatform.direction.x;
+            else
+                y += (-1)*movingPlatform.velocity * movingPlatform.direction.y;
+        }
+        else if(isPlatform && movingPlatform.status==Status.forward)
+        {
+            y += platformVelocity.y * movingPlatform.direction.y;
+        }
         rb2D.velocity = new Vector2(x, y);
         Flip(x);
         animator.SetTrigger("Jump");

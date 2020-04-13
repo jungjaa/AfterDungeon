@@ -15,19 +15,22 @@ public class MovingPlatform : MonoBehaviour
     public float velocity;
     [Tooltip("돌아가는 속도 설정")]
     public float returnVelocity;
+    [Tooltip("플랫폼 크기")]
+    public int size;
 
-    [Tooltip("지면을 벗어났을 때 유효 점프 인정 시간")]
-    [SerializeField] private float mildJumpTime;
+    [Tooltip("발판이 멈춘 이후에도 점프를 할 수 있는 시간")]
+    [SerializeField] private float mildPlatformTime;
 
-    [SerializeField] private GameObject rider;
-    [SerializeField] private GameObject movingObjectPrefab;
-    [SerializeField] private GameObject movingObject;
+    [SerializeField] private GameObject player = null;
+    [SerializeField] private MovingObject movingObjectPrefab;
+    [SerializeField] private MovingObject movingObject;
     public Status status = Status.off;
-    private Vector3 direction;
+    public Vector3 direction;
     Rigidbody2D rb2D;
 
     private MovingPlatform destin;
 
+    [SerializeField]
     private Vector2 accel;
     private bool isMoving;
     // Start is called before the first frame update
@@ -53,9 +56,11 @@ public class MovingPlatform : MonoBehaviour
             if (directionType == Direction.x)
                 accel = new Vector2(velocity * velocity / (2 * (endPoint.transform.position.x - transform.position.x)), 0f);
             else
-                accel = new Vector2(0f, velocity * velocity / (2 * (endPoint.transform.position.x - transform.position.x)));
+                accel = new Vector2(0f, velocity * velocity / (2 * (endPoint.transform.position.y - transform.position.y)));
 
             movingObject = Instantiate(movingObjectPrefab, transform.position, Quaternion.identity);
+            movingObject.transform.localScale *= size;
+            movingObject.mildPlatformTime = this.mildPlatformTime;
             rb2D = movingObject.GetComponent<Rigidbody2D>();
             destin = endPoint;
         }
@@ -67,10 +72,16 @@ public class MovingPlatform : MonoBehaviour
     {
         if (isItStart)
         {
+            StatusSetting();
             if (OutOfBound(destin))// 정해진 범위보다 더 움직였을 경우
             {
                 rb2D.velocity = new Vector2(0f, 0f);
                 movingObject.transform.position = destin.transform.position;
+                if (player != null)
+                {
+                    player.GetComponent<Rigidbody2D>().velocity -= player.GetComponent<PlayerMovement>().platformVelocity;
+                    player.GetComponent<PlayerMovement>().platformVelocity = new Vector3(0f, 0f, 0f);
+                }
                 if (status == Status.forward)
                 {
                     direction = direction * (-1);
@@ -82,6 +93,7 @@ public class MovingPlatform : MonoBehaviour
                 {
                     direction = direction * (-1);
                     destin = endPoint;
+                    this.status = Status.off;
                     StartCoroutine(ChangeStatus(Status.off));
                 }
             }
@@ -90,10 +102,17 @@ public class MovingPlatform : MonoBehaviour
                 if (status == Status.forward)
                 {
                     rb2D.velocity += accel * Time.deltaTime;
+                    if (player != null)
+                    {
+                        player.GetComponent<Rigidbody2D>().velocity += accel * Time.deltaTime;
+                        player.GetComponent<PlayerMovement>().platformVelocity += accel * Time.deltaTime;
+                    }
                 }
                 else if (status == Status.backward)
                 {
                     rb2D.velocity = direction * returnVelocity;
+                    if(player!=null)
+                         player.GetComponent<PlayerMovement>().platformVelocity = direction * returnVelocity;
                 }
             }
         }
@@ -104,7 +123,7 @@ public class MovingPlatform : MonoBehaviour
     {
         if(direction==Vector3.up)
         {
-            if (movingObject.transform.position.y > endPoint2.transform.position.y)
+            if (movingObject.transform.position.y > endPoint2.transform.position.y - rb2D.velocity.y*Time.deltaTime)
                 return true;
             else
                 return false;
@@ -112,7 +131,7 @@ public class MovingPlatform : MonoBehaviour
         }
         else if (direction == Vector3.down)
         {
-            if (movingObject.transform.position.y < endPoint2.transform.position.y)
+            if (movingObject.transform.position.y < endPoint2.transform.position.y - rb2D.velocity.y * Time.deltaTime)
                 return true;
             else
                 return false;
@@ -120,7 +139,7 @@ public class MovingPlatform : MonoBehaviour
         }
         else if(direction == Vector3.right)
         {
-            if (movingObject.transform.position.x > endPoint2.transform.position.x)
+            if (movingObject.transform.position.x > endPoint2.transform.position.x - rb2D.velocity.x * Time.deltaTime)
                 return true;
             else
                 return false;
@@ -128,12 +147,32 @@ public class MovingPlatform : MonoBehaviour
         }
         else
         {
-            if (movingObject.transform.position.x < endPoint2.transform.position.x)
+            if (movingObject.transform.position.x < endPoint2.transform.position.x - rb2D.velocity.x * Time.deltaTime)
                 return true;
             else
                 return false;
 
         }
+    }
+
+    private void StatusSetting()
+    {
+        GameObject curPlayer;
+        curPlayer = movingObject.PlayerChecking();
+        if(player==null && curPlayer!=null)
+        {
+            curPlayer.GetComponent<PlayerMovement>().isPlatform = true;
+            curPlayer.GetComponent<PlayerMovement>().movingPlatform = this;
+        }
+        else if(player!=null && curPlayer==null)
+        {
+            player.GetComponent<PlayerMovement>().isPlatform = false;
+            player.GetComponent<PlayerMovement>().movingPlatform = null;
+        }
+
+        player = curPlayer;
+        if (status == Status.off && player != null)
+            status = Status.forward;
     }
     /*
     private void OnTriggerEnter2D(Collider2D collision)
@@ -149,9 +188,20 @@ public class MovingPlatform : MonoBehaviour
     */
     IEnumerator ChangeStatus(Status finalstatus)
     {
-        this.status = Status.off;
-        yield return new WaitForSeconds(0.5f);
-        this.status = finalstatus;
+        if (status == Status.forward)
+        {
+            this.status = Status.wait_jump;
+            yield return new WaitForSeconds(mildPlatformTime);
+            this.status = Status.wait_nojump;
+            yield return new WaitForSeconds(0.5f - mildPlatformTime);
+            this.status = finalstatus;
+        }
+        else
+        {
+            this.status = Status.wait_nojump;
+            yield return new WaitForSeconds(0.5f);
+            this.status = finalstatus;
+        }
     }
 }
 public enum Direction
@@ -161,5 +211,5 @@ public enum Direction
 
 public enum Status
 {
-    forward, off, backward
+    forward, off, backward, wait_jump, wait_nojump
 }
