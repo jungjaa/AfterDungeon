@@ -214,6 +214,7 @@ MonoBehaviour:
   isDashed: 0
   isFired: 0
   isPlatform: 0
+  movingPlatform: {fileID: 0}
   platformVelocity: {x: 0, y: 0}
   wallState: 0
   groundAccel: 200
@@ -248,7 +249,7 @@ MonoBehaviour:
   allowedJumpTime: 0.02
   dashingTime: 0.2
   mildWallTime: 0.04
-  wallJumpExtortionTime: 1
+  wallJumpExtortionTime: 0.175
 --- !u!1 &4565890281999262192
 GameObject:
   m_ObjectHideFlags: 0

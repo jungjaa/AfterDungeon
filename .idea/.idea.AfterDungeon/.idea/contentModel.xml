@@ -118,9 +118,14 @@
           </e>
           <e p="Dangerous.cs" t="Include" />
           <e p="DashGem.cs" t="Include" />
-          <e p="Player.cs" t="Include" />
-          <e p="PlayerMovement.cs" t="Include" />
-          <e p="ProjectileController.cs" t="Include" />
+          <e p="JumpGem.cs" t="Include" />
+          <e p="MovingObject.cs" t="Include" />
+          <e p="MovingPlatform.cs" t="Include" />
+          <e p="Player" t="Include">
+            <e p="Player.cs" t="Include" />
+            <e p="PlayerMovement.cs" t="Include" />
+            <e p="ProjectileController.cs" t="Include" />
+          </e>
         </e>
         <e p="SelfDestruction.cs" t="Include" />
       </e>
