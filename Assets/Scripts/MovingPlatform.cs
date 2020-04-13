@@ -21,16 +21,15 @@ public class MovingPlatform : MonoBehaviour
     [Tooltip("발판이 멈춘 이후에도 점프를 할 수 있는 시간")]
     [SerializeField] private float mildPlatformTime;
 
-    [SerializeField] private GameObject player = null;
+    private GameObject player = null;
     [SerializeField] private MovingObject movingObjectPrefab;
-    [SerializeField] private MovingObject movingObject;
+    private MovingObject movingObject;
     public Status status = Status.off;
-    public Vector3 direction;
+    [HideInInspector]public Vector3 direction;
     Rigidbody2D rb2D;
 
     private MovingPlatform destin;
 
-    [SerializeField]
     private Vector2 accel;
     private bool isMoving;
     // Start is called before the first frame update
