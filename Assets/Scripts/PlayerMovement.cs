@@ -272,7 +272,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isDashed = true;
             
-            StartCoroutine(GravityControl(0, dashingTime));
+            //StartCoroutine(GravityControl(0, dashingTime));
 
             float x = dashVelocity.x;
             //float y = dashVelocity.y;
@@ -289,12 +289,12 @@ public class PlayerMovement : MonoBehaviour
         while((Time.time-startTime<dashingTime)&&!isJumping)
         {
             float elapsed = Time.time - startTime;
-            if(elapsed<dashingTime/4)
+            if(elapsed<dashingTime/4-Time.deltaTime)
             {
                 rb2D.velocity = new Vector2(elapsed*x*4/dashingTime, y);
                 Flip(x);
             }
-            else if(dashingTime/4<=elapsed && elapsed<dashingTime*3/4)
+            else if(dashingTime/4-Time.deltaTime<=elapsed && elapsed<dashingTime*3/4-Time.deltaTime)
             {
                 rb2D.velocity = new Vector2(x, y);
                 Flip(x);
