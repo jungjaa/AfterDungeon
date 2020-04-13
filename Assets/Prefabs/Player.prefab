@@ -249,7 +249,7 @@ MonoBehaviour:
   allowedJumpTime: 0.02
   dashingTime: 0.2
   mildWallTime: 0.04
-  wallJumpExtortionTime: 0.175
+  wallJumpExtortionTime: 0.2
 --- !u!1 &4565890281999262192
 GameObject:
   m_ObjectHideFlags: 0
