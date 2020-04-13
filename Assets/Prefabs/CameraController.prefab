@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 0}
-  moveTime: 0.1
+  moveTime: 0.02
   startType: 0
   startPosition: {x: 0, y: 0, z: 0}
   player: {fileID: 0}

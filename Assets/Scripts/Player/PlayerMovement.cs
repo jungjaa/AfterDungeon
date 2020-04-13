@@ -82,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 groundBox = new Vector2(0.7f, 0.2f);
     private Vector2 wallBox = new Vector2(0.2f, 0.7f);
-    private Vector2 fireBox = new Vector3(2f,0.15f);
+    private Vector2 fireBox = new Vector3(1f,0.15f);
     private Rigidbody2D rb2D;
     private Animator animator;
 
@@ -229,6 +229,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(float horizontal, bool jump, bool dash, bool fire)
     {
+        if (isJumping) horizontal = 0f;
         if (jump) lastJumpInputTime = Time.time;
 
         GrabWall(horizontal);
@@ -385,6 +386,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyJumpVelocity(float x, float y, float duration = 0f)
     {
+        #region MovingPlatform
         if(isPlatform && movingPlatform.status==Status.wait_jump)// 움직이는 플랫폼 마지막에 멈춰있는 구간동안 관대한 점프 판정
         {
             if (movingPlatform.directionType == Direction.x)
@@ -396,6 +398,8 @@ public class PlayerMovement : MonoBehaviour
         {
             y += platformVelocity.y * movingPlatform.direction.y;
         }
+        #endregion
+
         rb2D.velocity = new Vector2(x, y);
         Flip(x);
         animator.SetTrigger("Jump");
