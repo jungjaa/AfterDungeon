@@ -286,7 +286,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator DashMove(float x, float y, float dashingTime)
     {
         float startTime = Time.time;
-        while(Time.time-startTime<dashingTime)
+        while((Time.time-startTime<dashingTime)&&!isJumping)
         {
             float elapsed = Time.time - startTime;
             if(elapsed<dashingTime/4)
@@ -417,8 +417,8 @@ public class PlayerMovement : MonoBehaviour
     {
         float x = projJumpVelocity.x;
         float y = projJumpVelocity.y;
-        if (IsFacingRight) ApplyJumpVelocity(x, y);
-        else ApplyJumpVelocity(-x, y);
+        if (IsFacingRight) ApplyJumpVelocity(x, y,0.01f);
+        else ApplyJumpVelocity(-x, y,0.01f);
     }
 
     private float Stamina
@@ -462,7 +462,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator EscapeJumping(float duration)
     {
-        isJumping = true;
+       isJumping = true;
 
         float startTime = Time.time;
         while (Time.time - startTime < duration)
