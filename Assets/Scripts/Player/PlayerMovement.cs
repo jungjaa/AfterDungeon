@@ -486,6 +486,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator EscapeJumping(float duration)
     {
        isJumping = true;
+       
 
         float startTime = Time.time;
         while (Time.time - startTime < duration)

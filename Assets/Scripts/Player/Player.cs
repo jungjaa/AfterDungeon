@@ -44,6 +44,8 @@ public class Player : MonoBehaviour
             fire = Input.GetButtonDown("Fire");
             stillfire = Input.GetButton("Fire");
             fireUp = Input.GetButtonUp("Fire");
+            
+            
             if (stillfire)
             {
                 fireButtonTime += Time.deltaTime;
@@ -57,9 +59,11 @@ public class Player : MonoBehaviour
             mover.SetProjectileTime(fireButtonTime);
             fireButtonTime = 0f;
         }
+        
         animator.SetFloat("Speed", Mathf.Abs(horizontal));
 
         jump = false;
+        
     }
 
     public void GetDamage()
@@ -97,4 +101,5 @@ public class Player : MonoBehaviour
         jump = false;
         fire = false;
     }
+
 }
