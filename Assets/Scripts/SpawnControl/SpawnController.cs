@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SpawnController : MonoBehaviour
 {
-
     [Header("주의: SpawnController의 위치는 0,0,0이어야 함")]
     public SpawnRegion startRegion;
 

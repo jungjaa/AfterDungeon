@@ -14,7 +14,10 @@ public class SpawnRegion : MonoBehaviour
     private float height;
     [SerializeField] public GameObject spawnPositionObject;
     private Vector2 spawnPosition;
-    
+
+    [SerializeField]
+    private int stageNum;
+
 
 
     public bool IsFirst { get { return isFirst; } }
