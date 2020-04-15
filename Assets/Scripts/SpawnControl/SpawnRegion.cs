@@ -16,7 +16,7 @@ public class SpawnRegion : MonoBehaviour
     private Vector2 spawnPosition;
 
     [SerializeField]
-    private int stageNum;
+    [Tooltip("스테이지 번호")] private int stageNum;
 
 
 
