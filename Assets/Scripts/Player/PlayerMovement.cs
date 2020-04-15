@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float longFireTime;
     private ProjectileController projectile;
 
-    public enum WallState { None, Slide}
+    public enum WallState { None, Slide, UpSlide}
     [Header("Wall Movement")]
     [Tooltip("벽으로 인정할 Layer")]
     [SerializeField] private LayerMask whatIsWall;
@@ -421,12 +421,24 @@ public class PlayerMovement : MonoBehaviour
             wallState = WallState.None;
             animator.SetBool("Wall", false);
         }
-        else if (closestWall.HasValue && (goRight == isFacingRight) && rb2D.velocity.y <= 0)
+        else if (closestWall.HasValue && (goRight == isFacingRight) /*&& rb2D.velocity.y <= 0*/)
         {
-            rb2D.velocity = new Vector2(0, -slidingVelocity);
-            wallState = WallState.Slide;
-            Stamina -= wallSlideStatmina * Time.deltaTime;
-            animator.SetBool("Wall", true);
+            if (rb2D.velocity.y <= 0)
+            {
+                rb2D.velocity = new Vector2(0, -slidingVelocity);
+                wallState = WallState.Slide;
+                Stamina -= wallSlideStatmina * Time.deltaTime;
+                animator.SetBool("Wall", true);
+            }
+
+            else
+            {
+                //rb2D.velocity = new Vector2(0, -slidingVelocity);
+                wallState = WallState.UpSlide;
+                Stamina -= wallSlideStatmina * Time.deltaTime;
+                //animator.SetBool("Wall", true);
+            }
+
         }
         else 
         {
