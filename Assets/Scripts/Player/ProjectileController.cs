@@ -68,7 +68,7 @@ public class ProjectileController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.tag != "Player")// 추가된 부분
+        if (coll.tag != "Player" && coll.tag != "Item")// 추가된 부분
         {
             isFlying = false;
         }
