@@ -35,6 +35,8 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         regionNum = WhichRegion();
         inverseMoveTime = 1f / moveTime;
         x = player.transform.position.x;

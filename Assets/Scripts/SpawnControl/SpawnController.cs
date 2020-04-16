@@ -28,6 +28,7 @@ public class SpawnController : MonoBehaviour
 
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         regionNum = WhichRegion();
         x = player.transform.position.x;
         y = player.transform.position.y;
