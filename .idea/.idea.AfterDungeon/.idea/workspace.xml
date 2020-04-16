@@ -12,7 +12,7 @@
     <session id="-1498331200">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
+          <entry key="project.closed" value="3" />
           <entry key="project.open.time.13" value="2" />
           <entry key="project.open.time.14" value="1" />
           <entry key="project.open.time.21" value="1" />
@@ -32,19 +32,19 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cs" value="253" />
+          <entry key="cs" value="299" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="C#" value="253" />
+          <entry key="C#" value="299" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A278EBD4-4AB0-472B-B8E6-38263E06CD61/2f/aa0b7470/SceneManager.cs">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="15">
@@ -133,24 +133,24 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/Player/Player.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="55" column="17" selection-start-line="55" selection-start-column="17" selection-end-line="55" selection-end-column="17" />
+            <state relative-caret-position="440">
+              <caret line="65" column="8" selection-start-line="65" selection-start-column="8" selection-end-line="65" selection-end-column="8" />
               <folding>
-                <marker date="1586936763596" expanded="false" signature="6:63" ph="..." />
-                <marker date="1586936763596" expanded="true" signature="143:2461" ph="{...}" />
-                <marker date="1586936763596" expanded="true" signature="560:694" ph="{...}" />
-                <marker date="1586936763596" expanded="true" signature="720:773" ph="{...}" />
-                <marker date="1586936763596" expanded="true" signature="800:1646" ph="{...}" />
-                <marker date="1586936763596" expanded="true" signature="830:1373" ph="{...}" />
-                <marker date="1586936763596" expanded="true" signature="1191:1363" ph="{...}" />
-                <marker date="1586936763596" expanded="true" signature="1443:1549" ph="{...}" />
-                <marker date="1586936763596" expanded="true" signature="1675:1780" ph="{...}" />
-                <marker date="1586936763596" expanded="true" signature="1824:1924" ph="{...}" />
-                <marker date="1586936763596" expanded="true" signature="1955:2295" ph="{...}" />
-                <marker date="1586936763596" expanded="true" signature="2340:2458" ph="{...}" />
+                <marker date="1586936981549" expanded="false" signature="6:63" ph="..." />
+                <marker date="1586936981549" expanded="true" signature="143:2470" ph="{...}" />
+                <marker date="1586936981549" expanded="true" signature="560:694" ph="{...}" />
+                <marker date="1586936981549" expanded="true" signature="720:773" ph="{...}" />
+                <marker date="1586936981549" expanded="true" signature="800:1655" ph="{...}" />
+                <marker date="1586936981549" expanded="true" signature="830:1373" ph="{...}" />
+                <marker date="1586936981549" expanded="true" signature="1191:1363" ph="{...}" />
+                <marker date="1586936981549" expanded="true" signature="1443:1549" ph="{...}" />
+                <marker date="1586936981549" expanded="true" signature="1684:1789" ph="{...}" />
+                <marker date="1586936981549" expanded="true" signature="1833:1933" ph="{...}" />
+                <marker date="1586936981549" expanded="true" signature="1964:2304" ph="{...}" />
+                <marker date="1586936981549" expanded="true" signature="2349:2467" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -198,9 +198,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="952" />
-    <option name="width" value="977" />
-    <option name="height" value="1038" />
+    <option name="x" value="953" />
+    <option name="width" value="974" />
+    <option name="height" value="1047" />
   </component>
   <component name="ProjectView">
     <navigator currentView="UnityExplorer" proportions="" version="1">
@@ -263,12 +263,12 @@
       <workItem from="1584165478399" duration="2134000" />
       <workItem from="1586241838042" duration="397000" />
       <workItem from="1586781816871" duration="677000" />
-      <workItem from="1586928813435" duration="2652000" />
+      <workItem from="1586928813435" duration="3469000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5869000" />
+    <option name="totallyTimeSpent" value="6686000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -280,8 +280,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="762" y="0" width="781" height="830" extended-state="0" />
-    <editor active="true" />
+    <frame x="953" y="0" width="974" height="1047" extended-state="0" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.54068965" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -336,24 +335,10 @@
     <entry file="file://C:/Program Files/Unity/Hub/Editor/2019.2.17f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/EventSystem/EventSystem.cs">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Player/Player.cs">
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A278EBD4-4AB0-472B-B8E6-38263E06CD61/2f/aa0b7470/SceneManager.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="55" column="17" selection-start-line="55" selection-start-column="17" selection-end-line="55" selection-end-column="17" />
-          <folding>
-            <marker date="1586936763596" expanded="false" signature="6:63" ph="..." />
-            <marker date="1586936763596" expanded="true" signature="143:2461" ph="{...}" />
-            <marker date="1586936763596" expanded="true" signature="560:694" ph="{...}" />
-            <marker date="1586936763596" expanded="true" signature="720:773" ph="{...}" />
-            <marker date="1586936763596" expanded="true" signature="800:1646" ph="{...}" />
-            <marker date="1586936763596" expanded="true" signature="830:1373" ph="{...}" />
-            <marker date="1586936763596" expanded="true" signature="1191:1363" ph="{...}" />
-            <marker date="1586936763596" expanded="true" signature="1443:1549" ph="{...}" />
-            <marker date="1586936763596" expanded="true" signature="1675:1780" ph="{...}" />
-            <marker date="1586936763596" expanded="true" signature="1824:1924" ph="{...}" />
-            <marker date="1586936763596" expanded="true" signature="1955:2295" ph="{...}" />
-            <marker date="1586936763596" expanded="true" signature="2340:2458" ph="{...}" />
-          </folding>
+        <state relative-caret-position="15">
+          <caret line="39" column="34" selection-start-line="39" selection-start-column="34" selection-end-line="39" selection-end-column="34" />
         </state>
       </provider>
     </entry>
@@ -435,10 +420,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A278EBD4-4AB0-472B-B8E6-38263E06CD61/2f/aa0b7470/SceneManager.cs">
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Player/Player.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="39" column="34" selection-start-line="39" selection-start-column="34" selection-end-line="39" selection-end-column="34" />
+        <state relative-caret-position="440">
+          <caret line="65" column="8" selection-start-line="65" selection-start-column="8" selection-end-line="65" selection-end-column="8" />
+          <folding>
+            <marker date="1586936981549" expanded="false" signature="6:63" ph="..." />
+            <marker date="1586936981549" expanded="true" signature="143:2470" ph="{...}" />
+            <marker date="1586936981549" expanded="true" signature="560:694" ph="{...}" />
+            <marker date="1586936981549" expanded="true" signature="720:773" ph="{...}" />
+            <marker date="1586936981549" expanded="true" signature="800:1655" ph="{...}" />
+            <marker date="1586936981549" expanded="true" signature="830:1373" ph="{...}" />
+            <marker date="1586936981549" expanded="true" signature="1191:1363" ph="{...}" />
+            <marker date="1586936981549" expanded="true" signature="1443:1549" ph="{...}" />
+            <marker date="1586936981549" expanded="true" signature="1684:1789" ph="{...}" />
+            <marker date="1586936981549" expanded="true" signature="1833:1933" ph="{...}" />
+            <marker date="1586936981549" expanded="true" signature="1964:2304" ph="{...}" />
+            <marker date="1586936981549" expanded="true" signature="2349:2467" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
