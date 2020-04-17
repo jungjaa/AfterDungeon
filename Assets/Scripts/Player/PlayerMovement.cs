@@ -108,8 +108,11 @@ public class PlayerMovement : MonoBehaviour
     {
         get
         {
+            /*
             if (isFacingRight) return transform.position + wallChecker.localPosition;
             else return transform.position - wallChecker.localPosition;
+            */
+            return wallChecker.position;
         }
     }
 
@@ -117,11 +120,10 @@ public class PlayerMovement : MonoBehaviour
     {
         get
         {
-            /*
+            
             if (isFacingRight) return transform.position + fireChecker.localPosition;
             else return transform.position - fireChecker.localPosition;
-            */
-            return wallChecker.position;
+            
         }
     }
 
@@ -149,10 +151,10 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawWireCube(groundChecker.position, groundBox);
 
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(wallChecker.position, wallBox);
+        Gizmos.DrawWireCube(/*wallChecker.position*/ WallCheckPos, wallBox);
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(fireChecker.position, fireBox);
+        Gizmos.DrawWireCube(/*fireChecker.position*/ FireCheckPos, fireBox);
     }
 
     private bool GroundChecking()
