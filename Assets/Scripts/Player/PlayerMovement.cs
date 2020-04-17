@@ -120,9 +120,11 @@ public class PlayerMovement : MonoBehaviour
     {
         get
         {
-            
+            /*
             if (isFacingRight) return transform.position + fireChecker.localPosition;
             else return transform.position - fireChecker.localPosition;
+            */
+            return fireChecker.position;
             
         }
     }

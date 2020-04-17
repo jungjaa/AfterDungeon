@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Camera camera;
+    public Camera controlcamera;
     public float moveTime = 0.1f;
-    float inverseMoveTime ;
+    float inverseMoveTime;
 
     private bool isCameraMoving = false;
 
@@ -36,7 +36,7 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        controlcamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         regionNum = WhichRegion();
         inverseMoveTime = 1f / moveTime;
         x = player.transform.position.x;
@@ -44,7 +44,7 @@ public class CameraController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void FixedUpdate()
     {
         if (isCameraMoving == false)
         {
@@ -58,26 +58,26 @@ public class CameraController : MonoBehaviour
             // Debug.Log("Down: " + curDown);
             if ((x >= curLeft) && (x < curRight) && (y >= curDown) && (y < curUp))
             {
-                // Debug.Log("here!");
+                 //Debug.Log("here!");
                 if (curRegion.cameratype == CameraType.XFreeze)
                 {
-                    Vector3 next = offset + new Vector3(camera.transform.position.x, y, -10f);
+                    Vector3 next = offset + new Vector3(controlcamera.transform.position.x, y, -10f);
                     if (next.y < curRegion.Min)
                         next.y = curRegion.Min;
                     else if (next.y > curRegion.Max)
                         next.y = curRegion.Max;
 
-                    camera.transform.position = next;
+                    controlcamera.transform.position = next;
                 }
                 else if (curRegion.cameratype == CameraType.YFreeze)
                 {
-                    Vector3 next = offset + new Vector3(x, camera.transform.position.y, -10f);
+                    Vector3 next = offset + new Vector3(x, controlcamera.transform.position.y, -10f);
                     if (next.x < curRegion.Min)
                         next.x = curRegion.Min;
                     else if (next.x > curRegion.Max)
                         next.x = curRegion.Max;
 
-                    camera.transform.position = next;
+                    controlcamera.transform.position = next;
                 }
             }
             else if ((num = WhichRegion()) != transform.childCount)
@@ -85,12 +85,10 @@ public class CameraController : MonoBehaviour
                 Debug.Log("region changed");
                 if (curRegion.cameratype == CameraType.Center)
                 {
-                    Debug.Log("center of region: " + curRegion.Center + new Vector3(0f, 0f, -10f));
                     StartCoroutine(Move(curRegion.Center + new Vector3(0f, 0f, -10f)));
                 }
                 else if ((curRegion.MinPoint - player.transform.position).magnitude < (curRegion.MaxPoint - player.transform.position).magnitude)
                 {
-                    Debug.Log(curRegion.MinPoint + new Vector3(0f, 0f, -10f));
                     SetMinOffset();
                     StartCoroutine(Move(curRegion.MinPoint + new Vector3(0f, 0f, -10f)));
                 }
@@ -106,7 +104,7 @@ public class CameraController : MonoBehaviour
     int WhichRegion()
     {
         int i;
-        for(i=0; i<transform.childCount;i++)
+        for (i = 0; i < transform.childCount; i++)
         {
             CameraRegion region = transform.GetChild(i).gameObject.GetComponent<CameraRegion>();
             float width = region.Width;
@@ -114,7 +112,7 @@ public class CameraController : MonoBehaviour
             float regionx = region.gameObject.transform.position.x;
             float regiony = region.gameObject.transform.position.y;
 
-            if ((x>=regionx-width)&& (x < regionx + width) && (y >= regiony - height) && (y < regiony + height))
+            if ((x >= regionx - width) && (x < regionx + width) && (y >= regiony - height) && (y < regiony + height))
             {
                 curWidth = region.Width;
                 curHeight = region.Height;
@@ -133,13 +131,13 @@ public class CameraController : MonoBehaviour
     void SetMinOffset()
     {
         CameraType cameratype = curRegion.cameratype;
-        if(cameratype==CameraType.XFreeze)
+        if (cameratype == CameraType.XFreeze)
         {
             offset = new Vector3(0f, curRegion.Min - curDown, 0f);
         }
         else
         {
-            offset = new Vector3(curRegion.Min-curLeft, 0f, 0f);
+            offset = new Vector3(curRegion.Min - curLeft, 0f, 0f);
         }
     }
     void SetMaxOffset()
@@ -157,14 +155,14 @@ public class CameraController : MonoBehaviour
     IEnumerator Move(Vector3 end)
     {
         isCameraMoving = true;
-        float sqrRemainingDistance = (camera.transform.position - end).sqrMagnitude;
+        float sqrRemainingDistance = (controlcamera.transform.position - end).sqrMagnitude;
         while (sqrRemainingDistance > float.Epsilon)
         {
-            Vector3 newPosition = Vector3.MoveTowards(camera.transform.position, end, inverseMoveTime * Time.deltaTime);
-            camera.transform.position = newPosition;
-            sqrRemainingDistance = (camera.transform.position - end).sqrMagnitude;
+            Vector3 newPosition = Vector3.MoveTowards(controlcamera.transform.position, end, inverseMoveTime * Time.deltaTime);
+            controlcamera.transform.position = newPosition;
+            sqrRemainingDistance = (controlcamera.transform.position - end).sqrMagnitude;
             //Debug.Log(camera.transform.position);
-           // Debug.Log(end);
+            // Debug.Log(end);
             //Debug.Log("Move!");
             yield return null;
         }

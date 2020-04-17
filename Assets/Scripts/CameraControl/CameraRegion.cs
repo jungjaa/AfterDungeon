@@ -71,13 +71,14 @@ public class CameraRegion : MonoBehaviour
     private void Awake()
     {
         position = transform.position;
-        width = GetComponent<MeshRenderer>().bounds.size.x / 2;
-        height = GetComponent<MeshRenderer>().bounds.size.y / 2;
+        width = (GetComponent<MeshRenderer>().bounds.size.x / 2);
+        height = (GetComponent<MeshRenderer>().bounds.size.y / 2);
         
     }
     private void Start()
     {
     }
+
 
 
 }
