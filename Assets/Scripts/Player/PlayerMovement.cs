@@ -81,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float wallJumpExtortionTime;
 
     private Vector2 groundBox = new Vector2(0.7f, 0.2f);
-    private Vector2 wallBox = new Vector2(0.2f, 0.7f);
+    private Vector2 wallBox = new Vector2(0.2f, 1.2f);
     private Vector2 fireBox = new Vector3(1f,0.15f);
     private Rigidbody2D rb2D;
     private Animator animator;

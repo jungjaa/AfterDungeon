@@ -126,6 +126,13 @@
             <e p="PlayerMovement.cs" t="Include" />
             <e p="ProjectileController.cs" t="Include" />
           </e>
+          <e p="SceneSctipts" t="Include">
+            <e p="TitleScene.cs" t="Include" />
+          </e>
+          <e p="SpawnControl" t="Include">
+            <e p="SpawnController.cs" t="Include" />
+            <e p="SpawnRegion.cs" t="Include" />
+          </e>
         </e>
         <e p="SelfDestruction.cs" t="Include" />
       </e>
