@@ -117,8 +117,11 @@ public class PlayerMovement : MonoBehaviour
     {
         get
         {
+            /*
             if (isFacingRight) return transform.position + fireChecker.localPosition;
             else return transform.position - fireChecker.localPosition;
+            */
+            return wallChecker.position;
         }
     }
 
@@ -423,6 +426,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (closestWall.HasValue && (goRight == isFacingRight) /*&& rb2D.velocity.y <= 0*/)
         {
+            //Debug.Log("grab! " + transform.position);
             if (rb2D.velocity.y <= 0)
             {
                 rb2D.velocity = new Vector2(0, -slidingVelocity);
