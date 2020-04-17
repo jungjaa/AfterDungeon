@@ -218,10 +218,10 @@ MonoBehaviour:
   platformVelocity: {x: 0, y: 0}
   wallState: 0
   groundAccel: 200
-  airAccel: 100
-  horizontalSpeed: 13
+  airAccel: 80
+  horizontalSpeed: 12
   originGravity: 6
-  jumpVelocity: {x: 13, y: 20}
+  jumpVelocity: {x: 12, y: 20}
   dashVelocity: {x: 40, y: 5}
   whatIsGround:
     serializedVersion: 2
@@ -240,8 +240,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   wallChecker: {fileID: 4565890281187666904}
-  slidingVelocity: 2
-  slidingJumpVelocity: {x: 13, y: 20}
+  slidingVelocity: 3.5
+  slidingJumpVelocity: {x: 12, y: 20}
   totalStamina: 100
   stamina: 0
   wallSlideStatmina: 0
