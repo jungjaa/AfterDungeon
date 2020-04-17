@@ -238,6 +238,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isJumping) horizontal = 0f;
         if (jump) lastJumpInputTime = Time.time;
+        if (isGrounded) animator.SetBool("IsJumping", false); // 애니메이션 추가
 
         GrabWall(horizontal);
         HorizontalMove(horizontal);
@@ -250,6 +251,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void JumpingMovement(float horizontal)
     {
+        animator.SetBool("IsJumping", true);
         Debug.Log("Is Ground = " + isGrounded
             + " Closest Wall = " + closestWall
             + " Wall State = " + wallState
@@ -409,7 +411,7 @@ public class PlayerMovement : MonoBehaviour
 
         rb2D.velocity = new Vector2(x, y);
         Flip(x);
-        animator.SetTrigger("Jump");
+        //animator.SetTrigger("Jump");
 
         if (duration != 0)
         {
