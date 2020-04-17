@@ -25,7 +25,7 @@ public class DashGem : MonoBehaviour
         if(isActivated==false)
         {
             elapsedTime += Time.deltaTime;
-            if(elapsedTime>10f)
+            if(elapsedTime>3f)
             {
                 elapsedTime = 0;
                 isActivated = true;
