@@ -232,7 +232,7 @@ MonoBehaviour:
     type: 3}
   maxDistance: 6
   fireVelocity: 30
-  fireJumpVelocity: {x: 5, y: 7}
+  fireJumpVelocity: {x: 5, y: 10}
   projJumpVelocity: {x: 0, y: 20}
   shortFireTime: 1
   longFireTime: 2.5
@@ -240,8 +240,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   wallChecker: {fileID: 4565890281187666904}
-  slidingVelocity: 3.5
-  slidingJumpVelocity: {x: 12, y: 20}
+  slidingVelocity: 4
+  slidingJumpVelocity: {x: 12, y: 17}
   totalStamina: 100
   stamina: 0
   wallSlideStatmina: 0
