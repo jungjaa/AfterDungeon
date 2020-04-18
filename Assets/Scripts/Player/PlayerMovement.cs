@@ -238,7 +238,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isJumping) horizontal = 0f;
         if (jump) lastJumpInputTime = Time.time;
-        if (isGrounded) animator.SetBool("IsJumping", false); // 애니메이션 추가
+        if (isGrounded && rb2D.velocity.y<=0)
+        {
+            animator.SetBool("IsJumping", false); // 애니메이션 추가
+        }
 
         GrabWall(horizontal);
         HorizontalMove(horizontal);
