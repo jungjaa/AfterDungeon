@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SpawnController : MonoBehaviour
 {
+    public static SpawnController instance = null;
+
     [Header("주의: SpawnController의 위치는 0,0,0이어야 함")]
     public SpawnRegion startRegion;
 
@@ -25,6 +27,11 @@ public class SpawnController : MonoBehaviour
 
     SpawnRegion curRegion;
 
+    private void Awake()
+    {
+        if(instance==null)
+            instance = this;
+    }
 
     void Start()
     {
@@ -86,5 +93,14 @@ public class SpawnController : MonoBehaviour
             }
         }
         return i;
+    }
+
+    public void Respawn()
+    {
+       if(regionNum<transform.childCount-1)
+        {
+            curRegion = transform.GetChild(regionNum + 1).GetComponent<SpawnRegion>();
+            curRegion.SetSpawn(player);
+        }
     }
 }

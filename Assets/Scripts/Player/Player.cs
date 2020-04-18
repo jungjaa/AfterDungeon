@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     private float horizontal = 0;
     private bool jump = false;
     private bool dash = false;
+    private bool respawn = false;
 
     private bool fire = false;
     private bool stillfire = false;
@@ -36,6 +37,12 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        respawn = Input.GetButtonDown("Respawn");
+        if(respawn)
+        {
+            SpawnController.instance.Respawn();
+            GetDamage(0.5f);
+        }
         if (canControl)
         {
             horizontal = Input.GetAxisRaw("Horizontal");
@@ -44,7 +51,6 @@ public class Player : MonoBehaviour
             fire = Input.GetButtonDown("Fire");
             stillfire = Input.GetButton("Fire");
             fireUp = Input.GetButtonUp("Fire");
-            
             
             if (stillfire)
             {
@@ -66,12 +72,12 @@ public class Player : MonoBehaviour
         
     }
 
-    public void GetDamage()
+    public void GetDamage(float duration = 2f)
     {
         if (!canControl) return;
         canControl = false;
 
-        StartCoroutine(Die());
+        StartCoroutine(Die(duration));
     }
 
     public void SetSpawnPos(Vector2 value)
@@ -80,14 +86,14 @@ public class Player : MonoBehaviour
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
     }
 
-    private IEnumerator Die()
+    private IEnumerator Die(float duration)
     {
         animator.SetBool("Die", true);
         GetComponent<SpriteRenderer>().DOKill();
         GetComponent<SpriteRenderer>().color = Color.white;
         CanControl(false);
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(duration);
 
         animator.SetBool("Die", false);
         transform.position = originPos;
