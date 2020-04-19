@@ -142,6 +142,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        VelocityLimit();
         isGrounded = GroundChecking();
         closestWall = WallChecking();
         rb2D.gravityScale = GravityControl();
@@ -157,6 +158,14 @@ public class PlayerMovement : MonoBehaviour
 
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(/*fireChecker.position*/ FireCheckPos, fireBox);
+    }
+
+    private void VelocityLimit()
+    {
+        if(rb2D.velocity.y<(-1)*jumpVelocity.y + 1.1772f*rb2D.gravityScale/6)
+        {
+            rb2D.velocity = new Vector2(rb2D.velocity.x, (-1) * jumpVelocity.y + 1.1772f * rb2D.gravityScale / 6);
+        }
     }
 
     private bool GroundChecking()
