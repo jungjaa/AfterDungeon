@@ -100,7 +100,20 @@ public class SpawnController : MonoBehaviour
        if(regionNum<transform.childCount-1)
         {
             curRegion = transform.GetChild(regionNum + 1).GetComponent<SpawnRegion>();
-            curRegion.SetSpawn(player);
+
+            regionNum++;
+
+            float regionx = curRegion.gameObject.transform.position.x;
+            float regiony = curRegion.gameObject.transform.position.y;
+
+                curWidth = curRegion.Width;
+                curHeight = curRegion.Height;
+                curLeft = regionx - curWidth;
+                curRight = regionx + curWidth;
+                curUp = regiony + curHeight;
+                curDown = regiony - curHeight;
+
+                curRegion.SetSpawn(player);
         }
     }
 }
