@@ -48,7 +48,7 @@ public class SpawnRegion : MonoBehaviour
 
     public void SetSpawn(Player player)
     {
-        player.SetSpawnPos(spawnPosition);
+        player.SetSpawnPos(spawnPosition, player.gameObject.GetComponent<Rigidbody2D>().velocity.x, player.gameObject.GetComponent<Rigidbody2D>().velocity.y);
     }
 
 }

@@ -80,10 +80,10 @@ public class Player : MonoBehaviour
         StartCoroutine(Die(duration));
     }
 
-    public void SetSpawnPos(Vector2 value)
+    public void SetSpawnPos(Vector2 value, float x = 0, float y = 0)
     {
         originPos = value;
-        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        GetComponent<Rigidbody2D>().velocity = new Vector2(x,y);
     }
 
     private IEnumerator Die(float duration)
