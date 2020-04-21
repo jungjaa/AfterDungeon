@@ -401,7 +401,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isJumping) return;
 
-        if(wallState==WallState.Slide && IsFacingRight != isWallRight)
+        if((wallState==WallState.Slide || wallState == WallState.upSlide) && IsFacingRight != isWallRight)
         {
             elapsed += Time.deltaTime;
             if (elapsed < detachWallTime)
@@ -481,7 +481,7 @@ public class PlayerMovement : MonoBehaviour
         else if (horizontal < 0) goRight = false;
         
 
-        if (Stamina <= 0 || isGrounded)
+        if (Stamina <= 0 || (isGrounded && rb2D.velocity.y <= 0))
         {
             wallState = WallState.None;
             animator.SetBool("Wall", false);
@@ -515,14 +515,14 @@ public class PlayerMovement : MonoBehaviour
 
             
                // Stamina -= wallSlideStatmina * Time.deltaTime;
-                animator.SetBool("Wall", true);
+           animator.SetBool("Wall", true);
 
         }
         else 
         {
             wallState = WallState.None;
             animator.SetBool("Wall", false);
-            animator.SetBool("Wall Jump Ready", false);
+            //animator.SetBool("Wall Jump Ready", false);
         }
     }
 
