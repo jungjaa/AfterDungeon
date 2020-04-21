@@ -83,6 +83,7 @@ public class Player : MonoBehaviour
     public void SetSpawnPos(Vector2 value, float x = 0, float y = 0)
     {
         originPos = value;
+        transform.position = value;
         GetComponent<Rigidbody2D>().velocity = new Vector2(x,y);
     }
 
