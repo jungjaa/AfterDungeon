@@ -392,13 +392,8 @@ public class PlayerMovement : MonoBehaviour
         Flip(dir);
 
         float nowV = rb2D.velocity.x;
-        #region platform
-        float targetV = dir * horizontalSpeed + platformVelocity.x;
 
-        if (!isGrounded)
-            targetV += addVelocity.x;
-        #endregion  
-        // 이후에 update로 빼주어야 함
+        float targetV = dir * horizontalSpeed + platformVelocity.x;
 
         if (nowV == targetV) return;
 
@@ -422,22 +417,34 @@ public class PlayerMovement : MonoBehaviour
         if(isPlatform && movingPlatform.status==Status.wait_jump)// 움직이는 플랫폼 마지막에 멈춰있는 구간동안 관대한 점프 판정
         {
             if (movingPlatform.directionType == Direction.x)
-                x += (-1)*(movingPlatform.velocity + movingPlatform.extraVelocity) * movingPlatform.direction.x;
+            {
+                platformVelocity.x = (-1) * (movingPlatform.velocity + movingPlatform.extraVelocity) * movingPlatform.direction.x;
+                x += (-1) * (movingPlatform.velocity + movingPlatform.extraVelocity) * movingPlatform.direction.x;
+            }
             else
-                y += (-1)*(movingPlatform.velocity + movingPlatform.extraVelocity) * movingPlatform.direction.y;
+            {
+                platformVelocity.y = (-1) * (movingPlatform.velocity + movingPlatform.extraVelocity) * movingPlatform.direction.y;
+                y += (-1) * (movingPlatform.velocity + movingPlatform.extraVelocity) * movingPlatform.direction.y;
+            }
         }
         else if(isPlatform && movingPlatform.status==Status.forward)
         {
             if (movingPlatform.directionType == Direction.x)
-                x += (platformVelocity.x) * movingPlatform.direction.x + addVelocity.x;
+            {
+                platformVelocity.x += addVelocity.x;
+                x += platformVelocity.x;
+            }
             else
-                y += (platformVelocity.y) * movingPlatform.direction.y + addVelocity.y;
+            {
+                platformVelocity.y += addVelocity.y;
+                y += platformVelocity.y;
+            }
         }
         #endregion
-        // 이후에 update로 빼줘야 함
 
 
         rb2D.velocity = new Vector2(x, y);
+        Debug.Log(rb2D.velocity);
         Flip(x);
         //animator.SetTrigger("Jump");
 

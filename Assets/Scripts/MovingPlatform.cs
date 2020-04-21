@@ -90,8 +90,7 @@ public class MovingPlatform : MonoBehaviour
                 if (player != null)
                 {
                     player.GetComponent<Rigidbody2D>().velocity -= player.GetComponent<PlayerMovement>().platformVelocity;
-                    player.GetComponent<PlayerMovement>().platformVelocity -= rb2D.velocity;
-                    player.GetComponent<PlayerMovement>().addVelocity -= addVelocity;
+                    player.GetComponent<PlayerMovement>().platformVelocity -= rb2D.velocity; //addvelocity는 changestatus에서 감소시킴
                 }
                 if (status == Status.forward)
                 {
@@ -179,8 +178,8 @@ public class MovingPlatform : MonoBehaviour
         {
             curPlayer.GetComponent<PlayerMovement>().isPlatform = true;
             curPlayer.GetComponent<PlayerMovement>().movingPlatform = this;
-            curPlayer.GetComponent<PlayerMovement>().platformVelocity = new Vector2(0f, 0f);
-            curPlayer.GetComponent<PlayerMovement>().addVelocity = new Vector2(0f, 0f);
+            curPlayer.GetComponent<PlayerMovement>().platformVelocity = rb2D.velocity;
+            curPlayer.GetComponent<PlayerMovement>().addVelocity = addVelocity;
         }
         else if(player!=null && curPlayer==null)
         {
@@ -210,12 +209,16 @@ public class MovingPlatform : MonoBehaviour
         {
             this.status = Status.wait_jump;
             yield return new WaitForSeconds(mildPlatformTime);
+            if (player != null)
+                player.GetComponent<PlayerMovement>().addVelocity -= addVelocity;
             this.status = Status.wait_nojump;
             yield return new WaitForSeconds(0.5f - mildPlatformTime);
             this.status = finalstatus;
         }
         else
         {
+            if(player!=null)
+                player.GetComponent<PlayerMovement>().addVelocity -= addVelocity;
             this.status = Status.wait_nojump;
             yield return new WaitForSeconds(0.5f);
             this.status = finalstatus;
