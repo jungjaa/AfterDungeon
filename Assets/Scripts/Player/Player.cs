@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
         if(respawn)
         {
             SpawnController.instance.Respawn();
+            transform.position = originPos;
             GetDamage(0.5f);
         }
         if (canControl)
@@ -83,7 +84,7 @@ public class Player : MonoBehaviour
     public void SetSpawnPos(Vector2 value, float x = 0, float y = 0)
     {
         originPos = value;
-        transform.position = value;
+        //transform.position = value;
         GetComponent<Rigidbody2D>().velocity = new Vector2(x,y);
     }
 

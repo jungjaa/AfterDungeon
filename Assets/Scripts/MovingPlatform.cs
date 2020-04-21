@@ -13,6 +13,8 @@ public class MovingPlatform : MonoBehaviour
     public Direction directionType;
     [Tooltip("최종 속도 설정")]
     public float velocity;
+    [Tooltip("플레이어 점프시 최대 추가 속도")]
+    public float extraVelocity;
     [Tooltip("돌아가는 속도 설정")]
     public float returnVelocity;
     [Tooltip("플랫폼 크기")]
@@ -30,7 +32,10 @@ public class MovingPlatform : MonoBehaviour
 
     private MovingPlatform destin;
 
+    private Vector2 addVelocity; // 플랫폼 속도 제외 점프시 추가되는 속도 저장
+
     private Vector2 accel;
+    private Vector2 extraAccel;
     private bool isMoving;
     // Start is called before the first frame update
     void Start()
@@ -53,13 +58,20 @@ public class MovingPlatform : MonoBehaviour
             }
             this.startPoint = this;
             if (directionType == Direction.x)
+            {
                 accel = new Vector2(velocity * velocity / (2 * (endPoint.transform.position.x - transform.position.x)), 0f);
+                extraAccel = new Vector2(extraVelocity / (2 * (endPoint.transform.position.x - transform.position.x)/velocity), 0f);
+            }
             else
+            {
                 accel = new Vector2(0f, velocity * velocity / (2 * (endPoint.transform.position.y - transform.position.y)));
+                extraAccel = new Vector2(0f, extraVelocity / (2 * (endPoint.transform.position.y - transform.position.y) / velocity));
+            }
 
             movingObject = Instantiate(movingObjectPrefab, transform.position, Quaternion.identity);
             movingObject.transform.localScale *= size;
             movingObject.mildPlatformTime = this.mildPlatformTime;
+
             rb2D = movingObject.GetComponent<Rigidbody2D>();
             destin = endPoint;
         }
@@ -74,12 +86,12 @@ public class MovingPlatform : MonoBehaviour
             StatusSetting();
             if (OutOfBound(destin))// 정해진 범위보다 더 움직였을 경우
             {
-                rb2D.velocity = new Vector2(0f, 0f);
                 movingObject.transform.position = destin.transform.position;
                 if (player != null)
                 {
                     player.GetComponent<Rigidbody2D>().velocity -= player.GetComponent<PlayerMovement>().platformVelocity;
-                    player.GetComponent<PlayerMovement>().platformVelocity = new Vector3(0f, 0f, 0f);
+                    player.GetComponent<PlayerMovement>().platformVelocity -= rb2D.velocity;
+                    player.GetComponent<PlayerMovement>().addVelocity -= addVelocity;
                 }
                 if (status == Status.forward)
                 {
@@ -95,16 +107,21 @@ public class MovingPlatform : MonoBehaviour
                     this.status = Status.off;
                     StartCoroutine(ChangeStatus(Status.off));
                 }
+                addVelocity = new Vector2(0f, 0f);
+                rb2D.velocity = new Vector2(0f, 0f);
             }
             else
             {
                 if (status == Status.forward)
                 {
                     rb2D.velocity += accel * Time.deltaTime;
+                    addVelocity += extraAccel * Time.deltaTime;
+                    
                     if (player != null)
                     {
                         player.GetComponent<Rigidbody2D>().velocity += accel * Time.deltaTime;
                         player.GetComponent<PlayerMovement>().platformVelocity += accel * Time.deltaTime;
+                        player.GetComponent<PlayerMovement>().addVelocity += extraAccel * Time.deltaTime;
                     }
                 }
                 else if (status == Status.backward)
@@ -162,6 +179,8 @@ public class MovingPlatform : MonoBehaviour
         {
             curPlayer.GetComponent<PlayerMovement>().isPlatform = true;
             curPlayer.GetComponent<PlayerMovement>().movingPlatform = this;
+            curPlayer.GetComponent<PlayerMovement>().platformVelocity = new Vector2(0f, 0f);
+            curPlayer.GetComponent<PlayerMovement>().addVelocity = new Vector2(0f, 0f);
         }
         else if(player!=null && curPlayer==null)
         {

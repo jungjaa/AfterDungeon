@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     [HideInInspector] public MovingPlatform movingPlatform;
     [HideInInspector] public Vector2 platformVelocity;
+    [HideInInspector] public Vector2 addVelocity;
 
     private bool isDashing;
     [SerializeField] private WallState wallState;
@@ -189,7 +190,11 @@ public class PlayerMovement : MonoBehaviour
             if (colliders[i].gameObject != gameObject)
             {
                 if (colliders[i].gameObject.layer != LayerMask.NameToLayer("MovingPlatform"))
+                {
                     platformVelocity = new Vector2(0f, 0f);
+                    addVelocity = new Vector2(0f, 0f);
+                }
+                
                 lastGroundedTime = Time.time;
                 break;
             }
@@ -386,8 +391,14 @@ public class PlayerMovement : MonoBehaviour
 
         Flip(dir);
 
-        float targetV = dir * horizontalSpeed + platformVelocity.x;
         float nowV = rb2D.velocity.x;
+        #region platform
+        float targetV = dir * horizontalSpeed + platformVelocity.x;
+
+        if (!isGrounded)
+            targetV += addVelocity.x;
+        #endregion  
+        // 이후에 update로 빼주어야 함
 
         if (nowV == targetV) return;
 
@@ -411,15 +422,20 @@ public class PlayerMovement : MonoBehaviour
         if(isPlatform && movingPlatform.status==Status.wait_jump)// 움직이는 플랫폼 마지막에 멈춰있는 구간동안 관대한 점프 판정
         {
             if (movingPlatform.directionType == Direction.x)
-                x += (-1)*movingPlatform.velocity * movingPlatform.direction.x;
+                x += (-1)*(movingPlatform.velocity + movingPlatform.extraVelocity) * movingPlatform.direction.x;
             else
-                y += (-1)*movingPlatform.velocity * movingPlatform.direction.y;
+                y += (-1)*(movingPlatform.velocity + movingPlatform.extraVelocity) * movingPlatform.direction.y;
         }
         else if(isPlatform && movingPlatform.status==Status.forward)
         {
-            y += platformVelocity.y * movingPlatform.direction.y;
+            if (movingPlatform.directionType == Direction.x)
+                x += (platformVelocity.x) * movingPlatform.direction.x + addVelocity.x;
+            else
+                y += (platformVelocity.y) * movingPlatform.direction.y + addVelocity.y;
         }
         #endregion
+        // 이후에 update로 빼줘야 함
+
 
         rb2D.velocity = new Vector2(x, y);
         Flip(x);
