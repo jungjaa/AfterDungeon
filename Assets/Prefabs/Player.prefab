@@ -216,6 +216,7 @@ MonoBehaviour:
   isPlatform: 0
   movingPlatform: {fileID: 0}
   platformVelocity: {x: 0, y: 0}
+  addVelocity: {x: 0, y: 0}
   wallState: 0
   groundAccel: 200
   airAccel: 80
@@ -241,6 +242,8 @@ MonoBehaviour:
     m_Bits: 512
   wallChecker: {fileID: 4565890281187666904}
   slidingVelocity: 4
+  wallGravityFactor: 0.71428573
+  detachWallTime: 0.1
   slidingJumpVelocity: {x: 12, y: 17}
   totalStamina: 100
   stamina: 0

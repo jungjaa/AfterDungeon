@@ -54,15 +54,20 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float longFireTime;
     private ProjectileController projectile;
 
-    public enum WallState { None, Slide, UpSlide}
+    public enum WallState { None, Slide}
     [Header("Wall Movement")]
     [Tooltip("벽으로 인정할 Layer")]
     [SerializeField] private LayerMask whatIsWall;
     [SerializeField] private Transform wallChecker;
     [Tooltip("벽에서 미끄러질 속도")]
     [SerializeField] private float slidingVelocity;
+    [Tooltip("벽에서 미끄러질 때 중력 배수")]
+    [SerializeField] private float wallGravityFactor;
+    [Tooltip("벽에서 떨어지는데 필요한 입력 시간")]
+    [SerializeField] private float detachWallTime;
     [Tooltip("벽점프 속도 (오른쪽 점프 기준)")]
     [SerializeField] private Vector2 slidingJumpVelocity;
+    private bool? isWallRight = null;
 
     [Header("Stamina")]
     [SerializeField] private float totalStamina;
@@ -244,7 +249,7 @@ public class PlayerMovement : MonoBehaviour
     private float GravityControl()
     {
         if (isGravityControlled) return rb2D.gravityScale;
-        if (wallState == WallState.Slide) return 0f;
+        if (wallState == WallState.Slide) return originGravity*wallGravityFactor;
         return originGravity;
     }
 
@@ -260,8 +265,11 @@ public class PlayerMovement : MonoBehaviour
         GrabWall(horizontal);
         HorizontalMove(horizontal);
         if (AllowToJump()) JumpingMovement(horizontal);
-        if (dash) Dash(horizontal);
-        if (fire) Fire(horizontal);
+        if (wallState == WallState.None)
+        {
+            if (dash) Dash(horizontal);
+            if (fire) Fire(horizontal);
+        }
 
         animator.SetFloat("Jump Speed", rb2D.velocity.y);
     }
@@ -456,33 +464,27 @@ public class PlayerMovement : MonoBehaviour
 
     public void GrabWall(float horizontal)
     {
+
         bool? goRight = null;
         if (horizontal > 0) goRight = true;
         else if (horizontal < 0) goRight = false;
+        
 
         if (Stamina <= 0 || isGrounded)
         {
             wallState = WallState.None;
             animator.SetBool("Wall", false);
         }
-        else if (closestWall.HasValue && (goRight == isFacingRight) /*&& rb2D.velocity.y <= 0*/)
+        else if (closestWall.HasValue /*&& (goRight == isFacingRight) && rb2D.velocity.y <= 0*/)
         {
-            //Debug.Log("grab! " + transform.position);
-            if (rb2D.velocity.y <= 0)
-            {
-                rb2D.velocity = new Vector2(0, -slidingVelocity);
-                wallState = WallState.Slide;
-                Stamina -= wallSlideStatmina * Time.deltaTime;
-                animator.SetBool("Wall", true);
-            }
 
-            else
-            {
-                //rb2D.velocity = new Vector2(0, -slidingVelocity);
-                wallState = WallState.UpSlide;
-                Stamina -= wallSlideStatmina * Time.deltaTime;
-                //animator.SetBool("Wall", true);
-            }
+            //rb2D.velocity = new Vector2(0, -slidingVelocity);
+            if(wallState==WallState.None)
+                rb2D.velocity = new Vector2(0, 0);
+
+            wallState = WallState.Slide;
+               // Stamina -= wallSlideStatmina * Time.deltaTime;
+                animator.SetBool("Wall", true);
 
         }
         else 
