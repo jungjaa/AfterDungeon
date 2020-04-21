@@ -24,12 +24,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="cs" value="8" />
+          <entry key="cs" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="C#" value="8" />
+          <entry key="C#" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
@@ -55,7 +55,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/Player/PlayerMovement.cs">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-1260">
@@ -140,6 +140,21 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Assets/Scripts/Dangerous.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="8" column="35" lean-forward="true" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
+              <folding>
+                <marker date="1586176525283" expanded="false" signature="6:78" ph="..." />
+                <marker date="1586176525283" expanded="true" signature="118:304" ph="{...}" />
+                <marker date="1586176525283" expanded="true" signature="176:302" ph="{...}" />
+                <marker date="1586176525283" expanded="true" signature="218:296" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/DashGem.cs">
           <provider selected="true" editor-type-id="text-editor">
@@ -218,6 +233,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/JumpGem.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Dangerous.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A278EBD4-4AB0-472B-B8E6-38263E06CD61/2f/aa0b7470/SceneManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/DashGem.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" root0="FORCE_HIGHLIGHTING" />
@@ -311,12 +327,12 @@
       <workItem from="1586781816871" duration="677000" />
       <workItem from="1586928813435" duration="3469000" />
       <workItem from="1587042961603" duration="1092000" />
-      <workItem from="1587124834392" duration="1672000" />
+      <workItem from="1587124834392" duration="2244000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9450000" />
+    <option name="totallyTimeSpent" value="10022000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -328,7 +344,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.5394913" />
@@ -519,6 +535,19 @@
             <marker date="1587183751000" expanded="true" signature="16462:16529" ph="{...}" />
             <marker date="1587183751000" expanded="true" signature="16565:16603" ph="{...}" />
             <marker date="1587183751000" expanded="true" signature="16634:16671" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Dangerous.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="8" column="35" lean-forward="true" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
+          <folding>
+            <marker date="1586176525283" expanded="false" signature="6:78" ph="..." />
+            <marker date="1586176525283" expanded="true" signature="118:304" ph="{...}" />
+            <marker date="1586176525283" expanded="true" signature="176:302" ph="{...}" />
+            <marker date="1586176525283" expanded="true" signature="218:296" ph="{...}" />
           </folding>
         </state>
       </provider>
