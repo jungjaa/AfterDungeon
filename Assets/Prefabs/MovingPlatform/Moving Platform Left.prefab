@@ -94,16 +94,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isItStart: 0
-  endPoint: {fileID: 0}
+  endPoint: {fileID: 8954105660301214968}
   directionType: 0
   velocity: 12
   returnVelocity: 3
   size: 2
   mildPlatformTime: 0.1
-  player: {fileID: 0}
   movingObjectPrefab: {fileID: 2025487374038293967, guid: 9cb8b8c51cbe90c45a56b70162270f01,
     type: 3}
-  movingObject: {fileID: 0}
   status: 1
   direction: {x: 0, y: 0, z: 0}
-  accel: {x: 0, y: 0}
