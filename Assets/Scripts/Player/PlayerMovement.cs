@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float longFireTime;
     private ProjectileController projectile;
 
-    public enum WallState { None, Slide}
+    public enum WallState { None, Slide, upSlide}
     [Header("Wall Movement")]
     [Tooltip("벽으로 인정할 Layer")]
     [SerializeField] private LayerMask whatIsWall;
@@ -67,7 +67,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float detachWallTime;
     [Tooltip("벽점프 속도 (오른쪽 점프 기준)")]
     [SerializeField] private Vector2 slidingJumpVelocity;
+
     private bool? isWallRight = null;
+    private float elapsed = 0f;
 
     [Header("Stamina")]
     [SerializeField] private float totalStamina;
@@ -98,6 +100,8 @@ public class PlayerMovement : MonoBehaviour
     private float lastJumpInputTime = -999;                             // 이른 점프 인풋을 위한 마지막으로 점프를 누른 시점
     private float lastWallTime = -999f;                                 // 너그러운 벽점프를 위한 마지막 벽 인접 시간
     private int? closestWall = null;
+
+
 
     public bool IsFacingRight { get { return isFacingRight; } }
 
@@ -397,6 +401,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isJumping) return;
 
+        if(wallState==WallState.Slide && IsFacingRight != isWallRight)
+        {
+            elapsed += Time.deltaTime;
+            if (elapsed < detachWallTime)
+                return;
+
+        }
+
         Flip(dir);
 
         float nowV = rb2D.velocity.x;
@@ -452,7 +464,6 @@ public class PlayerMovement : MonoBehaviour
 
 
         rb2D.velocity = new Vector2(x, y);
-        Debug.Log(rb2D.velocity);
         Flip(x);
         //animator.SetTrigger("Jump");
 
@@ -479,10 +490,30 @@ public class PlayerMovement : MonoBehaviour
         {
 
             //rb2D.velocity = new Vector2(0, -slidingVelocity);
-            if(wallState==WallState.None)
+            if (wallState == WallState.None && rb2D.velocity.y<=0)
+            {
+                isWallRight = goRight;
+                elapsed = 0;
                 rb2D.velocity = new Vector2(0, 0);
+                wallState = WallState.Slide;
+            }
+            else if(wallState == WallState.None && rb2D.velocity.y > 0)
+            {
+                isWallRight = goRight;
+                elapsed = 0;
+                wallState = WallState.upSlide;
+            }
+            else
+            {
+                wallState = WallState.Slide;
+            }
 
-            wallState = WallState.Slide;
+            if(goRight==null || goRight == isWallRight)
+            {
+                elapsed = 0;
+            }
+
+            
                // Stamina -= wallSlideStatmina * Time.deltaTime;
                 animator.SetBool("Wall", true);
 
@@ -544,6 +575,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator EscapeJumping(float duration)
     {
+        rb2D.gravityScale = 0;
        isJumping = true;
        
 
