@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activated: {fileID: 21300000, guid: bd59bf2e866ed4529ae645637eb9c11d, type: 3}
-  deActivated: {fileID: 21300000, guid: ab272ae786ef3614181b3da0fe42d686, type: 3}
+  deActivated: {fileID: 21300000, guid: b0bef24c77a32174ba10dbfa933ac59a, type: 3}
 --- !u!58 &2536723450452129556
 CircleCollider2D:
   m_ObjectHideFlags: 0
