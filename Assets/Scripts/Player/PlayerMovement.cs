@@ -497,7 +497,7 @@ public class PlayerMovement : MonoBehaviour
                 rb2D.velocity = new Vector2(0, 0);
                 wallState = WallState.Slide;
             }
-            else if(rb2D.velocity.y > 0)
+            else if(wallState == WallState.None && rb2D.velocity.y > 0)
             {
                 isWallRight = goRight;
                 elapsed = 0;
