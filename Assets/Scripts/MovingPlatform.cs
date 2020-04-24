@@ -37,6 +37,8 @@ public class MovingPlatform : MonoBehaviour
     private Vector2 accel;
     private Vector2 extraAccel;
     private bool isMoving;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -96,7 +98,7 @@ public class MovingPlatform : MonoBehaviour
                 {
                     direction = direction * (-1);
                     destin = startPoint;
-                    Debug.Log("Forward end");
+                    //Debug.Log("Forward end");
                     StartCoroutine(ChangeStatus(Status.backward));
                 }
                 else
@@ -111,6 +113,7 @@ public class MovingPlatform : MonoBehaviour
             }
             else
             {
+                AnimationChange(rb2D.velocity, directionType);
                 if (status == Status.forward)
                 {
                     rb2D.velocity += accel * Time.deltaTime;
@@ -132,6 +135,20 @@ public class MovingPlatform : MonoBehaviour
             }
         }
                
+    }
+
+    public void AnimationChange(Vector2 velocity, Direction direction)
+    {
+        if (isItStart)
+            endPoint.AnimationChange(rb2D.velocity, direction);
+        if (direction==Direction.x)
+        {
+            transform.rotation = transform.rotation * Quaternion.Euler(new Vector3(0, 0, Time.deltaTime * velocity.x*100));
+        }
+        else
+        {
+            transform.rotation = transform.rotation * Quaternion.Euler(new Vector3(0, 0, Time.deltaTime * velocity.y * 100));
+        }
     }
     
     private bool OutOfBound(MovingPlatform endPoint2)
