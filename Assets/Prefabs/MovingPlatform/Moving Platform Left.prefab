@@ -70,7 +70,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 97135bb6ee7954d45be51c5b6f380944, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5e5818440222c8642b246910d4f69157, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,6 +97,7 @@ MonoBehaviour:
   endPoint: {fileID: 8954105660301214968}
   directionType: 0
   velocity: 12
+  extraVelocity: 0
   returnVelocity: 3
   size: 2
   mildPlatformTime: 0.1
