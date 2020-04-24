@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
   m_Name: Thorn_right
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 21300000, guid: a159ff7e64d6b02498f05bc7d54ae4d3, type: 3}
+  m_DefaultSprite: {fileID: 21300000, guid: 6e09c31a756d7694c96c7542b3348a1b, type: 3}
   m_DefaultGameObject: {fileID: 7189029026811182677, guid: 64c7ff419a474394d8b7ea99c7503067,
     type: 3}
   m_DefaultColliderType: 0
