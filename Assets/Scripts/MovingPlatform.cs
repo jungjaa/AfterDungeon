@@ -160,6 +160,7 @@ public class MovingPlatform : MonoBehaviour
 
     private void MakeRail()
     {
+        int k = 0;
         if(directionType==Direction.x)
         {
             int dir = ((int)(endPoint.transform.position.x - transform.position.x)) / Mathf.Abs((int)(endPoint.transform.position.x - transform.position.x));
@@ -167,6 +168,8 @@ public class MovingPlatform : MonoBehaviour
             for(float i = (transform.position.x); i!=(endPoint.transform.position.x); i+=dir)
             {
                 railRoad.Add(Instantiate(Rail_B, new Vector3(i + dir*0.5f, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 0, 90))));
+                if (++k > 30)
+                    break;
                 //railBAnimator.Add(railRoad[railRoad.Count-1].GetComponent<Animator>());
             }
 
@@ -187,6 +190,8 @@ public class MovingPlatform : MonoBehaviour
 
             for (int i = (int)(transform.position.y); i != (int)(endPoint.transform.position.y); i += dir)
             {
+                if (++k > 30)
+                    break;
                 railRoad.Add(Instantiate(Rail_B, new Vector3(transform.position.x, i, transform.position.z), Quaternion.Euler(new Vector3(0, 0, 0))));
                 //railBAnimator.Add(railRoad[railRoad.Count-1].GetComponent<Animator>());
             }
