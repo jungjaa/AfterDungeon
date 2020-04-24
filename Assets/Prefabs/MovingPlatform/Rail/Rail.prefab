@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7800571235239418265}
   - component: {fileID: 8954105660301214968}
   m_Layer: 0
-  m_Name: Moving Platform Left
+  m_Name: Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,3 +105,6 @@ MonoBehaviour:
     type: 3}
   status: 1
   direction: {x: 0, y: 0, z: 0}
+  Rail_A: {fileID: 5061147981915284341, guid: 017f022b90d521144be85d31eadd4116, type: 3}
+  Rail_B: {fileID: 244774364098788738, guid: 91629d2ce2436b547bc16f21330ca23a, type: 3}
+  Rail_C: {fileID: 7689914046485229654, guid: d2f1499723b79e44981988b7b6e1421e, type: 3}

@@ -38,12 +38,20 @@ public class MovingPlatform : MonoBehaviour
     private Vector2 extraAccel;
     private bool isMoving;
 
+    public GameObject Rail_A;
+    public GameObject Rail_B;
+    public GameObject Rail_C;
+
+    private GameObject railTip;
+    private List<GameObject> railRoad;
 
     // Start is called before the first frame update
     void Start()
     {
         if (isItStart)
         {
+            railRoad = new List<GameObject>();
+            MakeRail();
             if (directionType == Direction.x)
             {
                 if (endPoint.transform.position.x > transform.position.x)
@@ -137,6 +145,52 @@ public class MovingPlatform : MonoBehaviour
                
     }
 
+    private void MakeRail()
+    {
+        if(directionType==Direction.x)
+        {
+            int dir = ((int)(endPoint.transform.position.x - transform.position.x)) / Mathf.Abs((int)(endPoint.transform.position.x - transform.position.x));
+
+            for(float i = (transform.position.x); i!=(endPoint.transform.position.x); i+=dir)
+            {
+                railRoad.Add(Instantiate(Rail_B, new Vector3(i + dir*0.5f, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 0, 90))));
+            }
+
+            if (transform.position.x<endPoint.transform.position.x)
+            {
+                railTip = Instantiate(Rail_A, transform.position + new Vector3(-0.25f, 0, 0), Quaternion.Euler(new Vector3(0, 0, 90)));
+                endPoint.SetEndRail(90, 0.25f, directionType);
+            }
+            else
+            {
+                railTip = Instantiate(Rail_A, transform.position + new Vector3(0.25f, 0, 0), Quaternion.Euler(new Vector3(0, 0, -90)));
+                endPoint.SetEndRail(-90, -0.25f, directionType);
+            }
+        }
+        else
+        {
+            int dir = ((int)(endPoint.transform.position.y - transform.position.y)) / Mathf.Abs((int)(endPoint.transform.position.y - transform.position.y));
+            Debug.Log("y dir: " + dir);
+            Debug.Log(transform.position);
+            for (int i = (int)(transform.position.y); i != (int)(endPoint.transform.position.y); i += dir)
+            {
+                railRoad.Add(Instantiate(Rail_B, new Vector3(transform.position.x, i, transform.position.z), Quaternion.Euler(new Vector3(0, 0, 0))));
+
+            }
+
+            if (transform.position.y < endPoint.transform.position.y)
+            {
+                railTip = Instantiate(Rail_A, transform.position + new Vector3(0, -0.25f, 0), Quaternion.Euler(new Vector3(0, 0, 180)));
+                endPoint.SetEndRail(180, 0.25f, directionType);
+            }
+            else
+            {
+                railTip = Instantiate(Rail_A, transform.position + new Vector3(0, 0.25f, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
+                endPoint.SetEndRail(0, -0.25f, directionType);
+            }
+        }
+    }
+
     public void AnimationChange(Vector2 velocity, Direction direction)
     {
         if (isItStart)
@@ -187,6 +241,7 @@ public class MovingPlatform : MonoBehaviour
         }
     }
 
+
     private void StatusSetting()
     {
         GameObject curPlayer;
@@ -207,6 +262,23 @@ public class MovingPlatform : MonoBehaviour
         player = curPlayer;
         if (status == Status.off && player != null)
             status = Status.forward;
+    }
+
+    public void SetEndRail(float angle, float offset, Direction Type)
+    {
+        if(Type==Direction.y)
+        {
+            railTip = Instantiate(Rail_C, transform.position + new Vector3(0, offset, 0), Quaternion.Euler(new Vector3(0, 0, angle)));
+        }
+        else
+        {
+            railTip = Instantiate(Rail_C, transform.position + new Vector3(offset, 0, 0), Quaternion.Euler(new Vector3(0, 0, angle)));
+        }
+    }
+
+    public void SetRailSpeed(float speed)
+    {
+
     }
     /*
     private void OnTriggerEnter2D(Collider2D collision)
