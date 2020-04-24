@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpawnController : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class SpawnController : MonoBehaviour
 
     private void Awake()
     {
-        if(instance==null)
+        if (instance == null)
             instance = this;
     }
 
@@ -97,7 +98,7 @@ public class SpawnController : MonoBehaviour
 
     public void Respawn()
     {
-       if(regionNum<transform.childCount-1)
+        if (regionNum < transform.childCount - 1)
         {
             curRegion = transform.GetChild(regionNum + 1).GetComponent<SpawnRegion>();
 
@@ -106,14 +107,29 @@ public class SpawnController : MonoBehaviour
             float regionx = curRegion.gameObject.transform.position.x;
             float regiony = curRegion.gameObject.transform.position.y;
 
-                curWidth = curRegion.Width;
-                curHeight = curRegion.Height;
-                curLeft = regionx - curWidth;
-                curRight = regionx + curWidth;
-                curUp = regiony + curHeight;
-                curDown = regiony - curHeight;
+            curWidth = curRegion.Width;
+            curHeight = curRegion.Height;
+            curLeft = regionx - curWidth;
+            curRight = regionx + curWidth;
+            curUp = regiony + curHeight;
+            curDown = regiony - curHeight;
 
-                curRegion.SetSpawn(player);
+            curRegion.SetSpawn(player);
         }
+        else
+        {
+            SceneChange();
+        }
+    }
+
+    void SceneChange()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        if (currentSceneName == "0")
+            SceneManager.LoadScene("1");
+        else if (currentSceneName == "1")
+            SceneManager.LoadScene("2");
+        else
+            SceneManager.LoadScene("1");
     }
 }
