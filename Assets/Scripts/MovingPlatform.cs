@@ -43,7 +43,19 @@ public class MovingPlatform : MonoBehaviour
     public GameObject Rail_C;
 
     private GameObject railTip;
+    private Animator animator;
     private List<GameObject> railRoad;
+
+    private float Velocity
+    {
+        get
+        {
+            if (directionType == Direction.x)
+                return rb2D.velocity.x;
+            else
+                return rb2D.velocity.y;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -84,8 +96,8 @@ public class MovingPlatform : MonoBehaviour
 
             rb2D = movingObject.GetComponent<Rigidbody2D>();
             destin = endPoint;
+            SetRailSpeed(0f);
         }
-        
     }
 
     // Update is called once per frame
@@ -94,6 +106,7 @@ public class MovingPlatform : MonoBehaviour
         if (isItStart)
         {
             StatusSetting();
+            SetRailSpeed(Velocity);
             if (OutOfBound(destin))// 정해진 범위보다 더 움직였을 경우
             {
                 movingObject.transform.position = destin.transform.position;
@@ -154,6 +167,7 @@ public class MovingPlatform : MonoBehaviour
             for(float i = (transform.position.x); i!=(endPoint.transform.position.x); i+=dir)
             {
                 railRoad.Add(Instantiate(Rail_B, new Vector3(i + dir*0.5f, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 0, 90))));
+                //railBAnimator.Add(railRoad[railRoad.Count-1].GetComponent<Animator>());
             }
 
             if (transform.position.x<endPoint.transform.position.x)
@@ -170,12 +184,11 @@ public class MovingPlatform : MonoBehaviour
         else
         {
             int dir = ((int)(endPoint.transform.position.y - transform.position.y)) / Mathf.Abs((int)(endPoint.transform.position.y - transform.position.y));
-            Debug.Log("y dir: " + dir);
-            Debug.Log(transform.position);
+
             for (int i = (int)(transform.position.y); i != (int)(endPoint.transform.position.y); i += dir)
             {
                 railRoad.Add(Instantiate(Rail_B, new Vector3(transform.position.x, i, transform.position.z), Quaternion.Euler(new Vector3(0, 0, 0))));
-
+                //railBAnimator.Add(railRoad[railRoad.Count-1].GetComponent<Animator>());
             }
 
             if (transform.position.y < endPoint.transform.position.y)
@@ -189,6 +202,7 @@ public class MovingPlatform : MonoBehaviour
                 endPoint.SetEndRail(0, -0.25f, directionType);
             }
         }
+        animator = railTip.GetComponent<Animator>();
     }
 
     public void AnimationChange(Vector2 velocity, Direction direction)
@@ -274,11 +288,21 @@ public class MovingPlatform : MonoBehaviour
         {
             railTip = Instantiate(Rail_C, transform.position + new Vector3(offset, 0, 0), Quaternion.Euler(new Vector3(0, 0, angle)));
         }
+        animator = railTip.GetComponent<Animator>();
+    }
+    private void SetRailSpeed(float speed)
+    {
+        animator.SetFloat("RailSpeed", speed);
+        for(int i=0;i<railRoad.Count;i++)
+        {
+            railRoad[i].GetComponent<MovingRailB>().animator.SetFloat("RailSpeed", speed);
+        }
+        endPoint.SetEndRailSpeed(speed);
     }
 
-    public void SetRailSpeed(float speed)
+    public void SetEndRailSpeed(float speed)
     {
-
+        animator.SetFloat("RailSpeed", speed);
     }
     /*
     private void OnTriggerEnter2D(Collider2D collision)
