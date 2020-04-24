@@ -165,11 +165,14 @@ public class MovingPlatform : MonoBehaviour
         {
             int dir = ((int)(endPoint.transform.position.x - transform.position.x)) / Mathf.Abs((int)(endPoint.transform.position.x - transform.position.x));
 
-            for(float i = (transform.position.x); i!=(endPoint.transform.position.x); i+=dir)
+            for(float i = (transform.position.x); 0.01f <= Mathf.Abs(i - endPoint.transform.position.x); i+=dir)
             {
                 railRoad.Add(Instantiate(Rail_B, new Vector3(i + dir*0.5f, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 0, 90))));
                 if (++k > 30)
+                {
+                    Debug.Log("무한루프: " + gameObject);
                     break;
+                }
                 //railBAnimator.Add(railRoad[railRoad.Count-1].GetComponent<Animator>());
             }
 
@@ -188,11 +191,14 @@ public class MovingPlatform : MonoBehaviour
         {
             int dir = ((int)(endPoint.transform.position.y - transform.position.y)) / Mathf.Abs((int)(endPoint.transform.position.y - transform.position.y));
 
-            for (int i = (int)(transform.position.y); i != (int)(endPoint.transform.position.y); i += dir)
+            for (float i = (transform.position.y); 0.01f<= Mathf.Abs(i-endPoint.transform.position.y); i += dir)
             {
                 if (++k > 30)
+                {
+                    Debug.Log("무한루프: " + gameObject);
                     break;
-                railRoad.Add(Instantiate(Rail_B, new Vector3(transform.position.x, i, transform.position.z), Quaternion.Euler(new Vector3(0, 0, 0))));
+                }
+                railRoad.Add(Instantiate(Rail_B, new Vector3(transform.position.x, i + dir * 0.5f, transform.position.z), Quaternion.Euler(new Vector3(0, 0, 0))));
                 //railBAnimator.Add(railRoad[railRoad.Count-1].GetComponent<Animator>());
             }
 
