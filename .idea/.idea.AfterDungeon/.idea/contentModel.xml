@@ -112,6 +112,7 @@
           </e>
         </e>
         <e p="Scripts" t="Include">
+          <e p="AlphaTestStartScene.cs" t="Include" />
           <e p="CameraControl" t="Include">
             <e p="CameraController.cs" t="Include" />
             <e p="CameraRegion.cs" t="Include" />
@@ -121,6 +122,8 @@
           <e p="JumpGem.cs" t="Include" />
           <e p="MovingObject.cs" t="Include" />
           <e p="MovingPlatform.cs" t="Include" />
+          <e p="MovingRailB.cs" t="Include" />
+          <e p="OneWaySensor.cs" t="Include" />
           <e p="Player" t="Include">
             <e p="Player.cs" t="Include" />
             <e p="PlayerMovement.cs" t="Include" />
