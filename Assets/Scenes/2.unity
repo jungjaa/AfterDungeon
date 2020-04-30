@@ -69323,7 +69323,7 @@ PrefabInstance:
     - target: {fileID: 8954105660301214968, guid: 705452037a5f9c64880ae511bb1fca1f,
         type: 3}
       propertyPath: extraVelocity
-      value: -20
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 8954105660301214968, guid: 705452037a5f9c64880ae511bb1fca1f,
         type: 3}
