@@ -9,21 +9,33 @@ public class LeverPlatform : LodgingPlatform
 
     public void ChangeState()
     {
-        if (targetState) Deactivate();
-        else Activate();
+            if (targetState) Deactivate();
+            else Activate();
     }
 
     private void Activate()
     {
         targetState = true;
-        StartCoroutine(TryToActivate());
+        if(gameObject.tag=="Lever Platform")
+            StartCoroutine(TryToActivate());
+        else
+        {
+            GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 0.5f);
+            GetComponent<Collider2D>().enabled = false;
+        }
+
     }
 
     private void Deactivate()
     {
         targetState = false;
-        GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 0.5f);
-        GetComponent<Collider2D>().enabled = false;
+        if (gameObject.tag == "Lever Platform")
+        {
+            GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 0.5f);
+            GetComponent<Collider2D>().enabled = false;
+        }
+        else
+            StartCoroutine(TryToActivate());
     }
 
     private IEnumerator TryToActivate()

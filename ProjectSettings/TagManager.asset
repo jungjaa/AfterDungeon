@@ -11,6 +11,7 @@ TagManager:
   - Rail
   - Lever Platform
   - Item
+  - Lever PlatformB
   layers:
   - Default
   - TransparentFX
