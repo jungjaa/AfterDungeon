@@ -68,19 +68,19 @@ public class ProjectileController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.tag != "Player" && coll.tag != "Item")// 추가된 부분
-        {
-            isFlying = false;
-        }
-        else if(coll.tag == "Player")
+        if(coll.tag == "Player")
         {
             if (!isPlayerThere)
             {
                 coll.gameObject.GetComponent<PlayerMovement>().ProjectileJump();
                 Destroy(gameObject);
-            }
-            
+            }           
         }
+        else if (coll.tag != "Player" && coll.tag != "Item")// 추가된 부분
+        {
+            isFlying = false;
+        }
+
     }
 
     private void OnTriggerExit2D(Collider2D coll)
@@ -103,6 +103,12 @@ public class ProjectileController : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+        if (collision.collider.GetComponent<ContactArrow>() != null)
+        {
+            collision.collider.GetComponent<ContactArrow>().OnLodgingEnterAction(this.gameObject);
+            Debug.Log("Arrow on Lever");
+        }
+
     }
 
     private void OnDestroy()
