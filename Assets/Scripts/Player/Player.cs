@@ -96,6 +96,7 @@ public class Player : MonoBehaviour
         CanControl(false);
 
         yield return new WaitForSeconds(duration);
+        ResetableObject.ResetAll();
 
         animator.SetBool("Die", false);
         transform.position = originPos;

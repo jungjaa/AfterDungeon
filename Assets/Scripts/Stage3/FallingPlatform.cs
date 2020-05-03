@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FallingPlatform : MonoBehaviour
+public class FallingPlatform : ResetableObject
 {
     private float elapsed = 0f;
 
@@ -21,6 +21,7 @@ public class FallingPlatform : MonoBehaviour
     [SerializeField] private LayerMask whatIsWeight;
 
     private Rigidbody2D rb2D;
+    private Vector2 originPos;
 
     private void OnDrawGizmos()
     {
@@ -35,8 +36,10 @@ public class FallingPlatform : MonoBehaviour
         */
     }
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+        originPos = transform.position;
         rb2D = GetComponent<Rigidbody2D>();
         left = CheckSidePlatform(leftPoint.position);
         right = CheckSidePlatform(rightPoint.position);
@@ -119,5 +122,12 @@ public class FallingPlatform : MonoBehaviour
         return null;
     }
 
+    public override void Reset()
+    {
+        isFalling = false;
+        rb2D.velocity = Vector2.zero;
+        elapsed = 0;
+        transform.position = originPos;
+    }
 
 }

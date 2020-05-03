@@ -152,8 +152,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log("Time: " + Time.deltaTime);
-        Debug.Log(rb2D.velocity.y);
         VelocityLimit();
         isGrounded = GroundChecking();
         closestWall = WallChecking();
