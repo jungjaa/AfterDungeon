@@ -12,10 +12,13 @@ public class MovingObject : MonoBehaviour
     [Tooltip("발판이 멈춘 이후에도 점프를 할 수 있는 시간")]
     public float mildPlatformTime;
     private float lastPlayerTime;
-    private GameObject player;
+    [SerializeField] private GameObject player;
+
+    private Animator animator;
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         player = null;
     }
 
@@ -34,6 +37,8 @@ public class MovingObject : MonoBehaviour
 
     public GameObject PlayerChecking()
     {
+        GameObject curPlayer = player;
+        player = null;
         Collider2D[] colls = Physics2D.OverlapBoxAll(playerChecker.position, playerBox, 0, whatIsPlayer);
         int i;
         for(i=0;i<colls.Length;i++)
@@ -42,10 +47,25 @@ public class MovingObject : MonoBehaviour
             {
                 player = colls[i].gameObject;
                 lastPlayerTime = Time.time;
+                if (curPlayer == null)
+                    animator.SetTrigger("PlayerOn");
+                break;
             }
+        }
+        //Debug.Log(transform.position + " " + player);
+        //Debug.Log("cur: " + curPlayer + "new: " + player);
+        if(curPlayer!=null && player==null)
+        {
+            Debug.Log("playerOff");
+            animator.SetTrigger("PlayerOff");
         }
         if (Time.time - lastPlayerTime <= mildPlatformTime)
             return player;
         return null;
+    }
+
+    public void SetObjectIdle()
+    {
+        animator.SetTrigger("Idle");
     }
 }

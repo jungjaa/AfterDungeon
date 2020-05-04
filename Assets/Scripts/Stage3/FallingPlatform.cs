@@ -53,6 +53,11 @@ public class FallingPlatform : ResetableObject
             rb2D.velocity = new Vector2(rb2D.velocity.x, rb2D.velocity.y - 1.1772f); //만약 player의 gravityscale이 달라진다면 이것도 수정해야 함... 6 기준임
             VelocityLimit();
             elapsed += Time.deltaTime;
+            if(elapsed>5)
+            {
+                isFalling = false;
+                rb2D.velocity = new Vector2(0,0);
+            }
         }
         else if(WeightChecking())
         {
