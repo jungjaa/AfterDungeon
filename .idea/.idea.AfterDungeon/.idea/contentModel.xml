@@ -120,21 +120,31 @@
           <e p="Dangerous.cs" t="Include" />
           <e p="DashGem.cs" t="Include" />
           <e p="JumpGem.cs" t="Include" />
-          <e p="MovingObject.cs" t="Include" />
-          <e p="MovingPlatform.cs" t="Include" />
-          <e p="MovingRailB.cs" t="Include" />
           <e p="OneWaySensor.cs" t="Include" />
           <e p="Player" t="Include">
             <e p="Player.cs" t="Include" />
             <e p="PlayerMovement.cs" t="Include" />
             <e p="ProjectileController.cs" t="Include" />
           </e>
+          <e p="ResetableObject.cs" t="Include" />
           <e p="SceneSctipts" t="Include">
             <e p="TitleScene.cs" t="Include" />
           </e>
           <e p="SpawnControl" t="Include">
             <e p="SpawnController.cs" t="Include" />
             <e p="SpawnRegion.cs" t="Include" />
+          </e>
+          <e p="Stage2" t="Include">
+            <e p="MovingObject.cs" t="Include" />
+            <e p="MovingPlatform.cs" t="Include" />
+            <e p="MovingRailB.cs" t="Include" />
+          </e>
+          <e p="Stage3" t="Include">
+            <e p="ContactArrow.cs" t="Include" />
+            <e p="FallingPlatform.cs" t="Include" />
+            <e p="Lever.cs" t="Include" />
+            <e p="LeverPlatform.cs" t="Include" />
+            <e p="LodgingPlatform.cs" t="Include" />
           </e>
         </e>
         <e p="SelfDestruction.cs" t="Include" />

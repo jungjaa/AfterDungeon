@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LeverPlatform : LodgingPlatform
 {
+    public Sprite activateSprite, deactivateSprite;
+    
     [SerializeField] private LayerMask playerLayer;
     private bool targetState = true;
 
@@ -20,7 +22,7 @@ public class LeverPlatform : LodgingPlatform
             StartCoroutine(TryToActivate());
         else
         {
-            GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 0.5f);
+            GetComponent<SpriteRenderer>().sprite = deactivateSprite;
             GetComponent<Collider2D>().enabled = false;
         }
 
@@ -31,7 +33,7 @@ public class LeverPlatform : LodgingPlatform
         targetState = false;
         if (gameObject.tag == "Lever Platform")
         {
-            GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 0.5f);
+            GetComponent<SpriteRenderer>().sprite = deactivateSprite;
             GetComponent<Collider2D>().enabled = false;
         }
         else
@@ -52,7 +54,7 @@ public class LeverPlatform : LodgingPlatform
             coll = Physics2D.OverlapBox(transform.localPosition, myColl.size, 0, playerLayer);
         }
 
-        GetComponent<SpriteRenderer>().color = Color.red;
+        GetComponent<SpriteRenderer>().sprite = activateSprite;
         GetComponent<Collider2D>().enabled = true;
     }
 }
