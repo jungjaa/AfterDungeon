@@ -29,6 +29,13 @@ public class ProjectileController : MonoBehaviour
         isFlying = true;
         endX = transform.position.x + (isGoingRight ? distance : -distance);
     }
+    /*
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position - new Vector3(0.45f,0,0), new Vector2(1f,0.15f));
+    }
+    */
 
     private void Start()
     {
@@ -39,6 +46,7 @@ public class ProjectileController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        ActionCheck();
         if (isFlying == false)
         {
             elaspedtime += Time.deltaTime;
@@ -63,6 +71,18 @@ public class ProjectileController : MonoBehaviour
         {
             isFlying = false;
             transform.position = new Vector2(endX, transform.position.y);
+        }
+    }
+    private void ActionCheck()
+    {
+        Collider2D[] colls = Physics2D.OverlapBoxAll(transform.position - new Vector3(0.45f, 0, 0), new Vector2(1f, 0.15f), 0);
+        for(int i=0;i<colls.Length;i++)
+        {
+            if(colls[i].gameObject.GetComponent<ContactArrow>() != null)
+            {
+                colls[i].gameObject.GetComponent<ContactArrow>().OnLodgingEnterAction(this.gameObject);
+                break;
+            }
         }
     }
 
@@ -106,7 +126,7 @@ public class ProjectileController : MonoBehaviour
         if (collision.collider.GetComponent<ContactArrow>() != null)
         {
             collision.collider.GetComponent<ContactArrow>().OnLodgingEnterAction(this.gameObject);
-            Debug.Log("Arrow on Lever");
+            //Debug.Log("Arrow on Lever");
         }
 
     }

@@ -256,9 +256,12 @@ public class PlayerMovement : MonoBehaviour
         if (colls.Length != 0)
         {
             for(int i = 0;i<colls.Length;i++)
-            { 
-                if(colls[i].gameObject.GetComponent<ContactArrow>() != null)
+            {
+                if (colls[i].gameObject.GetComponent<ContactArrow>() != null)
+                {
                     colls[i].gameObject.GetComponent<ContactArrow>().OnLodgingEnterAction(null);
+                    break;
+                }
             }
             return false;
         }
@@ -648,6 +651,8 @@ public class PlayerMovement : MonoBehaviour
     }
     public void SetProjectileTime(float pressedTime)
     {
+        if (projectile == null)
+            return;
         if(pressedTime<=1.0f)
         {
             projectile.SetLimit(shortFireTime);
