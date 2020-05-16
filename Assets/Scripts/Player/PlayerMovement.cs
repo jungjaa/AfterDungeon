@@ -24,8 +24,12 @@ public class PlayerMovement : MonoBehaviour
     [Header("Basic Movement")]
     [Tooltip("지면 수평 가속도")]
     [SerializeField] private float groundAccel;
+    [Tooltip("지면 수평 감속도")]
+    [SerializeField] private float groundDecel;
     [Tooltip("공중 수평 가속도")]
     [SerializeField] private float airAccel;
+    [Tooltip("공중 수평 감속도")]
+    [SerializeField] private float airDecel;
     [Tooltip("기본 수평 이동속도")]
     [SerializeField] private float horizontalSpeed;
     [Tooltip("기본 중력")]
@@ -69,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Vector2 slidingJumpVelocity;
 
     private bool? isWallRight = null;
-    private float elapsed = 0f;
+    private float elapsed;
 
     [Header("Stamina")]
     [SerializeField] private float totalStamina;
@@ -101,6 +105,8 @@ public class PlayerMovement : MonoBehaviour
     private float lastWallTime = -999f;                                 // 너그러운 벽점프를 위한 마지막 벽 인접 시간
     private int? closestWall = null;
 
+    private bool isJumpTrue = false;
+
 
 
     public bool IsFacingRight { get { return isFacingRight; } }
@@ -111,6 +117,15 @@ public class PlayerMovement : MonoBehaviour
         {
             if (isGrounded) return groundAccel;
             else return airAccel;
+        }
+    }
+
+    public float Deceleration
+    {
+        get
+        {
+            if (isGrounded) return groundDecel;
+            else return airDecel;
         }
     }
 
@@ -142,6 +157,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        elapsed = 0f;
         rb2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         
@@ -253,12 +269,14 @@ public class PlayerMovement : MonoBehaviour
     private float GravityControl()
     {
         if (isGravityControlled) return rb2D.gravityScale;
+        if (!isGrounded && rb2D.velocity.y > 0 && !isJumpTrue) return originGravity * 3f;
         if (wallState == WallState.Slide) return originGravity*wallGravityFactor;
         return originGravity;
     }
 
-    public void Move(float horizontal, bool jump, bool dash, bool fire)
+    public void Move(float horizontal, bool jump, bool dash, bool fire, bool jumpdown)
     {
+        isJumpTrue = jumpdown;
         if (isJumping) horizontal = 0f;
         if (jump) lastJumpInputTime = Time.time;
         if (isGrounded && (rb2D.velocity.y<=0 || isPlatform))
@@ -409,7 +427,6 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        Flip(dir);
 
         float nowV = rb2D.velocity.x;
 
@@ -417,18 +434,36 @@ public class PlayerMovement : MonoBehaviour
 
         if (nowV == targetV) return;
 
-        if (targetV > nowV)
+        if ((targetV>nowV) == (nowV>0))
         {
-            nowV += Acceleration * Time.fixedDeltaTime;
-            if (nowV > targetV) nowV = targetV;
+            if (targetV > nowV)
+            {
+                nowV += Acceleration * Time.fixedDeltaTime;
+                if (nowV > targetV) nowV = targetV;
+            }
+            else if (targetV < nowV)
+            {
+                nowV -= Acceleration * Time.fixedDeltaTime;
+                if (nowV < targetV) nowV = targetV;
+            }
         }
-        else if (targetV < nowV)
+        else
         {
-            nowV -= Acceleration * Time.fixedDeltaTime;
-            if (nowV < targetV) nowV = targetV;
+            if (targetV > nowV)
+            {
+                nowV += Deceleration * Time.fixedDeltaTime;
+                if (nowV > targetV) nowV = targetV;
+            }
+            else if (targetV < nowV)
+            {
+                nowV -= Deceleration * Time.fixedDeltaTime;
+                if (nowV < targetV) nowV = targetV;
+            }
         }
 
         rb2D.velocity = new Vector2(nowV, rb2D.velocity.y);
+        if(Mathf.Abs(nowV)>0.01f)
+            Flip(nowV);
     }
 
     private void ApplyJumpVelocity(float x, float y, float duration = 0f)
@@ -475,7 +510,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void GrabWall(float horizontal)
     {
-
         bool? goRight = null;
         if (horizontal > 0) goRight = true;
         else if (horizontal < 0) goRight = false;
@@ -490,32 +524,35 @@ public class PlayerMovement : MonoBehaviour
         {
 
             //rb2D.velocity = new Vector2(0, -slidingVelocity);
-            if (wallState == WallState.None && rb2D.velocity.y<=0)
+            if (wallState == WallState.None && rb2D.velocity.y<=0 && (goRight == isFacingRight))
             {
                 isWallRight = goRight;
                 elapsed = 0;
                 rb2D.velocity = new Vector2(0, 0);
                 wallState = WallState.Slide;
+                animator.SetBool("Wall", true);
             }
-            else if(rb2D.velocity.y > 0)
+            else if(rb2D.velocity.y > 0 && (goRight == isFacingRight))
             {
+               // Debug.Log("goRight: " + goRight + "isFacingRight: " + isFacingRight);
                 isWallRight = goRight;
-                elapsed = 0;
+                if (wallState==WallState.None)
+                    elapsed = 0;
                 wallState = WallState.upSlide;
+                animator.SetBool("Wall", true);
             }
-            else
+            else if(wallState==WallState.upSlide && rb2D.velocity.y<=0)
             {
                 wallState = WallState.Slide;
             }
 
-            if(goRight==null || goRight == isWallRight)
+            if(goRight==null)
             {
                 elapsed = 0;
             }
 
             
                // Stamina -= wallSlideStatmina * Time.deltaTime;
-           animator.SetBool("Wall", true);
 
         }
         else 
@@ -563,7 +600,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Flip(float dir)
     {
-        if (dir == 0) return;
+        if (Mathf.Abs(dir) < 0.2f) return;
         if (dir > 0 == IsFacingRight) return;
 
         isFacingRight = !isFacingRight;

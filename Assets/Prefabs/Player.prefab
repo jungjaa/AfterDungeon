@@ -219,7 +219,9 @@ MonoBehaviour:
   addVelocity: {x: 0, y: 0}
   wallState: 0
   groundAccel: 200
+  groundDecel: 200
   airAccel: 80
+  airDecel: 80
   horizontalSpeed: 12
   originGravity: 6
   jumpVelocity: {x: 12, y: 20}

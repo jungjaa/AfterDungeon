@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     private Animator animator;
     private float horizontal = 0;
     private bool jump = false;
+    private bool jumpdown = false;
     private bool dash = false;
     private bool respawn = false;
 
@@ -48,6 +49,7 @@ public class Player : MonoBehaviour
         {
             horizontal = Input.GetAxisRaw("Horizontal");
             jump = Input.GetButtonDown("Jump");
+            jumpdown = Input.GetButton("Jump");
             dash = Input.GetButtonDown("Dash");
             fire = Input.GetButtonDown("Fire");
             stillfire = Input.GetButton("Fire");
@@ -60,7 +62,7 @@ public class Player : MonoBehaviour
                     mover.SetProjectileTime(1.2f);
             }
         }
-        mover.Move(horizontal, jump, dash, fire);
+        mover.Move(horizontal, jump, dash, fire,jumpdown);
         if (fireUp)
         {
             mover.SetProjectileTime(fireButtonTime);
