@@ -254,7 +254,14 @@ public class PlayerMovement : MonoBehaviour
     {
         Collider2D[] colls = Physics2D.OverlapBoxAll(FireCheckPos, fireBox, 0, whatIsWall);
         if (colls.Length != 0)
+        {
+            for(int i = 0;i<colls.Length;i++)
+            { 
+                if(colls[i].gameObject.GetComponent<ContactArrow>() != null)
+                    colls[i].gameObject.GetComponent<ContactArrow>().OnLodgingEnterAction(null);
+            }
             return false;
+        }
         else
             return true;
     }

@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 6661192212566627901}
   - component: {fileID: 2025487374038293967}
   - component: {fileID: 8053064913559174157}
-  m_Layer: 14
+  m_Layer: 9
   m_Name: MovingObject
   m_TagString: Platform
   m_Icon: {fileID: 0}
@@ -179,6 +179,7 @@ MonoBehaviour:
     m_Bits: 256
   playerChecker: {fileID: 3215175015653519405}
   mildPlatformTime: 0.1
+  player: {fileID: 0}
 --- !u!95 &8053064913559174157
 Animator:
   serializedVersion: 3

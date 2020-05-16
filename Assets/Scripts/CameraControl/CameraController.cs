@@ -98,6 +98,10 @@ public class CameraController : MonoBehaviour
                     StartCoroutine(Move(curRegion.MaxPoint + new Vector3(0f, 0f, -10f)));
                 }
             }
+            else
+            {
+                player.GetComponent<Player>().GetDamage();
+            }
         }
     }
 

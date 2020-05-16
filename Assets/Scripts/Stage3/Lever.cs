@@ -30,7 +30,8 @@ public class Lever : ContactArrow
     public override void OnLodgingEnterAction(GameObject arrow)
     {
         ActivatePlatform();
-        Destroy(arrow);
+        if(arrow!=null)
+            Destroy(arrow);
         //arrow.GetComponent<ArrowController>().Disable();
     }
 
