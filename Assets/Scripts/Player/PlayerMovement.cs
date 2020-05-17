@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool isDashed;
     [SerializeField] private bool isFired;
     [SerializeField] public bool isPlatform;
+    private bool projumped;
 
 
     [HideInInspector] public MovingPlatform movingPlatform;
@@ -228,6 +229,7 @@ public class PlayerMovement : MonoBehaviour
         if (Time.time - lastGroundedTime <= mildJumpTime)
         {
             if (isGrounded == false) GroundingEvent();
+            projumped = false;
             return true;
         }
         else
@@ -279,7 +281,7 @@ public class PlayerMovement : MonoBehaviour
     private float GravityControl()
     {
         if (isGravityControlled) return rb2D.gravityScale;
-        if (!isGrounded && rb2D.velocity.y > 0 && !isJumpTrue) return originGravity * 3f;
+        if (!isGrounded && rb2D.velocity.y > 0 && !isJumpTrue && !projumped) return originGravity * 3f;
         if (wallState == WallState.Slide) return originGravity*wallGravityFactor;
         return originGravity;
     }
@@ -331,6 +333,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (isGrounded == false)
             {
+                projumped = true;
                 float x = fireJumpVelocity.x;
                 float y = fireJumpVelocity.y;
                 if (horizontal > 0) ApplyJumpVelocity(x, y);
@@ -575,6 +578,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void ProjectileJump()
     {
+        projumped = true;
         float x = projJumpVelocity.x;
         float y = projJumpVelocity.y;
         if (IsFacingRight) ApplyJumpVelocity(x, y,0.01f);
