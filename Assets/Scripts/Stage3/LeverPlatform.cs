@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LeverPlatform : LodgingPlatform
+public class LeverPlatform : MonoBehaviour
 {
     public Sprite activateSprite, deactivateSprite;
     
