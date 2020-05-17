@@ -419,6 +419,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void WallJump()
     {
+        projumped = true;
         if (closestWall == 1) ApplyJumpVelocity(-slidingJumpVelocity.x, slidingJumpVelocity.y, wallJumpExtortionTime);
         else if(closestWall == -1) ApplyJumpVelocity(slidingJumpVelocity.x, slidingJumpVelocity.y, wallJumpExtortionTime);
         Debug.Log("Wall Jump : " + rb2D.velocity);
