@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool isDashed;
     [SerializeField] private bool isFired;
     [SerializeField] public bool isPlatform;
-    private bool projumped;
+    //private bool projumped;
 
 
     [HideInInspector] public MovingPlatform movingPlatform;
@@ -106,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
     private float lastWallTime = -999f;                                 // 너그러운 벽점프를 위한 마지막 벽 인접 시간
     private int? closestWall = null;
 
-    private bool isJumpTrue = false;
+    //private bool isJumpTrue = false;
 
 
 
@@ -229,7 +229,7 @@ public class PlayerMovement : MonoBehaviour
         if (Time.time - lastGroundedTime <= mildJumpTime)
         {
             if (isGrounded == false) GroundingEvent();
-            projumped = false;
+            //projumped = false;
             return true;
         }
         else
@@ -281,14 +281,14 @@ public class PlayerMovement : MonoBehaviour
     private float GravityControl()
     {
         if (isGravityControlled) return rb2D.gravityScale;
-        if (!isGrounded && rb2D.velocity.y > 0 && !isJumpTrue && !projumped) return originGravity * 3f;
+        //if (!isGrounded && rb2D.velocity.y > 0 && !isJumpTrue && !projumped) return originGravity * 3f;
         if (wallState == WallState.Slide) return originGravity*wallGravityFactor;
         return originGravity;
     }
 
-    public void Move(float horizontal, bool jump, bool dash, bool fire, bool jumpdown)
+    public void Move(float horizontal, bool jump, bool dash, bool fire)
     {
-        isJumpTrue = jumpdown;
+        //isJumpTrue = jumpdown;
         if (isJumping) horizontal = 0f;
         if (jump) lastJumpInputTime = Time.time;
         if (isGrounded && (rb2D.velocity.y<=0 || isPlatform))
@@ -333,7 +333,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (isGrounded == false)
             {
-                projumped = true;
+                //projumped = true;
                 float x = fireJumpVelocity.x;
                 float y = fireJumpVelocity.y;
                 if (horizontal > 0) ApplyJumpVelocity(x, y);
@@ -419,7 +419,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void WallJump()
     {
-        projumped = true;
+        //projumped = true;
         if (closestWall == 1) ApplyJumpVelocity(-slidingJumpVelocity.x, slidingJumpVelocity.y, wallJumpExtortionTime);
         else if(closestWall == -1) ApplyJumpVelocity(slidingJumpVelocity.x, slidingJumpVelocity.y, wallJumpExtortionTime);
         Debug.Log("Wall Jump : " + rb2D.velocity);
@@ -579,7 +579,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void ProjectileJump()
     {
-        projumped = true;
+        //projumped = true;
         float x = projJumpVelocity.x;
         float y = projJumpVelocity.y;
         if (IsFacingRight) ApplyJumpVelocity(x, y,0.01f);
