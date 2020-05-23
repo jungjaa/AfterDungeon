@@ -241,7 +241,7 @@ MonoBehaviour:
   longFireTime: 2.5
   whatIsWall:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 16896
   wallChecker: {fileID: 4565890281187666904}
   slidingVelocity: 4
   wallGravityFactor: 0.71428573
