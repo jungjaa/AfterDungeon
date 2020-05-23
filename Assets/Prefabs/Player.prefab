@@ -234,7 +234,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 2480807860061347004, guid: 65eb601f96614e34bbffcb36f1fec34a,
     type: 3}
   maxDistance: 6
-  fireVelocity: 30
+  fireVelocity: 40
   fireJumpVelocity: {x: 5, y: 10}
   projJumpVelocity: {x: 0, y: 20}
   shortFireTime: 1

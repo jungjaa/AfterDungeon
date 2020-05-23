@@ -53,7 +53,7 @@ public class ProjectileController : MonoBehaviour
             if (elapsedtime >= 0.1f)
             {
                 float speedDown = (-10) * speed * (elapsedtime + Time.deltaTime / 2) + 2 * speed;
-                speedDown = speedDown > speed / 5 ? speedDown : speed / 5;
+                speedDown = speedDown > 0.2f ? speedDown : 0.2f;
                 rb2D.velocity = isGoingRight ? new Vector2(speedDown, 0) : new Vector2(-speedDown, 0);
             }
             elapsedtime += Time.deltaTime;
