@@ -582,6 +582,7 @@ public class PlayerMovement : MonoBehaviour
         //projumped = true;
         float x = projJumpVelocity.x;
         float y = projJumpVelocity.y;
+        Debug.Log("projectile jump x: " + x + " y: " + y);
         if (IsFacingRight) ApplyJumpVelocity(x, y,0.01f);
         else ApplyJumpVelocity(-x, y,0.01f);
     }

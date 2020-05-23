@@ -7,6 +7,7 @@ public class ProjectileController : MonoBehaviour
     private Rigidbody2D rb2D;
     private BoxCollider2D bc2D;
     private bool isGoingRight;
+    private bool isEnd = false;
     private float speed;
 
     private bool isPlayerThere;
@@ -52,11 +53,10 @@ public class ProjectileController : MonoBehaviour
             elaspedtime += Time.deltaTime;
             if (elaspedtime > limitTime)
             {
-                player.FireEnd();
-                Destroy(gameObject);
+                ArrowEnd();
             }
             rb2D.velocity = Vector2.zero;
-            rb2D.bodyType = RigidbodyType2D.Static;
+            rb2D.bodyType = RigidbodyType2D.Kinematic;
 
             return;
         }
@@ -88,15 +88,17 @@ public class ProjectileController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
+
         if(coll.tag == "Player")
         {
-            if (!isPlayerThere)
+            
+            if (!isPlayerThere && !isEnd)
             {
                 coll.gameObject.GetComponent<PlayerMovement>().ProjectileJump();
-                Destroy(gameObject);
+                ArrowEnd();
             }           
         }
-        else if (coll.tag != "Player" && coll.tag != "Item")// 추가된 부분
+        else if (coll.tag != "Player" && coll.tag != "Item" && !isEnd)// 추가된 부분
         {
             isFlying = false;
         }
@@ -105,7 +107,7 @@ public class ProjectileController : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D coll)
     {
-        if (coll.tag == "Player")
+        if (coll.tag == "Player" && !isEnd)
         {
             if (isPlayerThere) isPlayerThere = false;
             bc2D.isTrigger = false; // 추가된 부분
@@ -115,15 +117,15 @@ public class ProjectileController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)//추가된 부분
     {
         isFlying = false;
-        if (collision.collider.tag == "Player")
+        if (collision.collider.tag == "Player" && !isEnd)
         {
             if (!isPlayerThere)
             {
                 collision.collider.gameObject.GetComponent<PlayerMovement>().ProjectileJump();
-                Destroy(gameObject);
+                ArrowEnd();
             }
         }
-        if (collision.collider.GetComponent<ContactArrow>() != null)
+        if (collision.collider.GetComponent<ContactArrow>() != null && !isEnd)
         {
             collision.collider.GetComponent<ContactArrow>().OnLodgingEnterAction(this.gameObject);
             //Debug.Log("Arrow on Lever");
@@ -139,5 +141,33 @@ public class ProjectileController : MonoBehaviour
     public void SetLimit(float time)
     {
         limitTime = time;
+    }
+
+    public void ArrowEnd()
+    {
+        bc2D.isTrigger = true;
+        isEnd = true;
+        StartCoroutine(FollowPlayer());
+        //Destroy(gameObject);
+
+
+    }
+
+    private IEnumerator FollowPlayer()
+    {
+        Vector3 cur = transform.position;
+        Vector3 playerPos = player.transform.position;
+        float endTime = Time.deltaTime/2;
+        
+        while((cur-playerPos).magnitude>0.4f)
+        {
+            float length = (endTime * 800 * Time.deltaTime / (cur - playerPos).magnitude)>1f ? 1f : (endTime * 800 * Time.deltaTime / (cur - playerPos).magnitude);
+            transform.position = Vector3.Lerp(cur, playerPos, length);
+            cur = transform.position;
+            playerPos = player.transform.position;
+            endTime += Time.deltaTime;
+            yield return null;
+        }
+        Destroy(gameObject);
     }
 }
