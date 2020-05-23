@@ -14,7 +14,7 @@ public class ProjectileController : MonoBehaviour
     private bool isFlying;
     private float endX;
 
-    private float elaspedtime;
+    private float elapsedtime;
     private PlayerMovement player;
     public float limitTime = 999f;
 
@@ -24,7 +24,7 @@ public class ProjectileController : MonoBehaviour
         this.speed = speed;
         this.player = person;
 
-        elaspedtime = 0f;
+        elapsedtime = 0f;
 
         isPlayerThere = true;
         isFlying = true;
@@ -48,10 +48,20 @@ public class ProjectileController : MonoBehaviour
     private void FixedUpdate()
     {
         ActionCheck();
-        if (isFlying == false)
+        if(isFlying)
         {
-            elaspedtime += Time.deltaTime;
-            if (elaspedtime > limitTime)
+            if (elapsedtime >= 0.1f)
+            {
+                float speedDown = (-10) * speed * (elapsedtime + Time.deltaTime / 2) + 2 * speed;
+                speedDown = speedDown > speed / 5 ? speedDown : speed / 5;
+                rb2D.velocity = isGoingRight ? new Vector2(speedDown, 0) : new Vector2(-speedDown, 0);
+            }
+            elapsedtime += Time.deltaTime;
+        }
+        else
+        {
+            elapsedtime += Time.deltaTime;
+            if (elapsedtime > limitTime)
             {
                 ArrowEnd();
             }
@@ -63,12 +73,14 @@ public class ProjectileController : MonoBehaviour
 
         if (isGoingRight && transform.position.x > endX)
         {
+            elapsedtime = 0f;
             isFlying = false;
             transform.position = new Vector2(endX, transform.position.y);
         }
 
         if (!isGoingRight && transform.position.x < endX)
         {
+            elapsedtime = 0f;
             isFlying = false;
             transform.position = new Vector2(endX, transform.position.y);
         }
