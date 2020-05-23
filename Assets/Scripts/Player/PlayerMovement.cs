@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     [HideInInspector] public MovingPlatform movingPlatform;
-    [HideInInspector] public Vector2 platformVelocity;
+    [SerializeField] public Vector2 platformVelocity;
     [HideInInspector] public Vector2 addVelocity;
 
     private bool isDashing;
