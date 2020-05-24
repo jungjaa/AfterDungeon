@@ -218,13 +218,13 @@ MonoBehaviour:
   platformVelocity: {x: 0, y: 0}
   addVelocity: {x: 0, y: 0}
   wallState: 0
-  groundAccel: 200
+  groundAccel: 80
   groundDecel: 200
-  airAccel: 80
+  airAccel: 40
   airDecel: 80
   horizontalSpeed: 12
   originGravity: 6
-  jumpVelocity: {x: 12, y: 20}
+  jumpVelocity: {x: 12, y: 20.5}
   dashVelocity: {x: 40, y: 5}
   whatIsGround:
     serializedVersion: 2
