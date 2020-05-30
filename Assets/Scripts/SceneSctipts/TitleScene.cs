@@ -52,7 +52,7 @@ public class TitleScene : MonoBehaviour
             bool c_pressed = Input.GetKeyDown(KeyCode.C);
             if (c_pressed)
             {
-                SceneManager.LoadScene("0");
+                SceneManager.LoadScene("Main");
             }
         }
     }
