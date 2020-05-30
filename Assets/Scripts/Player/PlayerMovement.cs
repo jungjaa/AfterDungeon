@@ -293,6 +293,7 @@ public class PlayerMovement : MonoBehaviour
         if (jump) lastJumpInputTime = Time.time;
         if (isGrounded && (rb2D.velocity.y<=0 || isPlatform))
         {
+            Debug.Log("Jump False");
             animator.SetBool("IsJumping", false); // 애니메이션 추가
         }
 
