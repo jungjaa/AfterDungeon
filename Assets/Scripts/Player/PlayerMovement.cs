@@ -293,7 +293,6 @@ public class PlayerMovement : MonoBehaviour
         if (jump) lastJumpInputTime = Time.time;
         if (isGrounded && (rb2D.velocity.y<=0 || isPlatform))
         {
-            Debug.Log("Jump False");
             animator.SetBool("IsJumping", false); // 애니메이션 추가
         }
 
@@ -537,7 +536,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (closestWall.HasValue /*&& (goRight == isFacingRight) && rb2D.velocity.y <= 0*/)
         {
-            Debug.Log(closestWall);
             //rb2D.velocity = new Vector2(0, -slidingVelocity);
             if (wallState == WallState.None && rb2D.velocity.y<=0 && (goRight == isFacingRight))
             {

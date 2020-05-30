@@ -10,11 +10,11 @@ public class UICluster : MonoBehaviour
     public bool isOn;
     public int index;
 
-    bool up;
-    bool down;
-    bool enter;
+    protected bool up;
+    protected bool down;
+    protected bool enter;
 
-    void Start()
+    protected virtual void Start()
     {
        index = 0;
        uiList[0].Activate();
@@ -23,17 +23,18 @@ public class UICluster : MonoBehaviour
        {
             uiList[i].DeActivate();
             uiList[i].controller = this;
-        }
+       }
+        ActivateAll(isOn);
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if (isOn)
         {
             up = Input.GetKeyDown(KeyCode.UpArrow);
             down = Input.GetKeyDown(KeyCode.DownArrow);
-            enter = Input.GetKeyDown(KeyCode.KeypadEnter);
+            enter = Input.GetKeyDown(KeyCode.Return);
             if (up)
             {
                 uiList[index].DeActivate();
@@ -62,9 +63,11 @@ public class UICluster : MonoBehaviour
 
     public void ActivateAll(bool On)
     {
+        isOn = On;
         for(int i=0;i<uiList.Count;i++)
         {
-            uiList[i].gameObject.SetActive(false);
+            uiList[i].gameObject.SetActive(On);
         }
     }
+
 }
