@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     private bool jump = false;
     private bool dash = false;
     private bool respawn = false;
+    private bool esc = false;
 
     private bool fire = false;
     private bool stillfire = false;
@@ -21,6 +22,8 @@ public class Player : MonoBehaviour
     private float fireButtonTime = 0f;
 
     private Vector2 originPos;
+
+    [SerializeField]private InGameMenu escMenu;
 
 
     private void Awake()
@@ -33,18 +36,26 @@ public class Player : MonoBehaviour
     private void Start()
     {
         SetSpawnPos(transform.position);
+        escMenu = (InGameMenu)FindObjectOfType(typeof(InGameMenu));
     }
 
     private void Update()
     {
         respawn = Input.GetButtonDown("Respawn");
+        esc = Input.GetKeyDown(KeyCode.Escape);
+        if (esc && escMenu != null)
+        {
+           // Debug.Log("esc pressed");
+            Time.timeScale = escMenu.isOn? 1:0;
+            escMenu.ActivateAll(!escMenu.isOn);
+        }
         if(respawn)
         {
             SpawnController.instance.Respawn();
             transform.position = originPos;
             GetDamage(0.5f);
         }
-        if (canControl)
+        if (canControl && Time.timeScale>0)
         {
             horizontal = Input.GetAxisRaw("Horizontal");
             jump = Input.GetButtonDown("Jump");

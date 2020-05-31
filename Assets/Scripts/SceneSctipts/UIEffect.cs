@@ -33,7 +33,8 @@ public class UIEffect : MonoBehaviour, IPointerEnterHandler
 
     public void OnPointerEnter(PointerEventData pointerEventData)
     {
-        controller.IndexChange(this);
+        if(controller!=null)
+            controller.IndexChange(this);
     }
 
 }

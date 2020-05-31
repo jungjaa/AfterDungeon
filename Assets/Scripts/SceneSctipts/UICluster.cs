@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class UICluster : MonoBehaviour
 {
-    [SerializeField]
-    protected List<UIEffect> uiList;
+
+    [SerializeField] protected List<UIEffect> uiList; // 버튼 등 실제 이벤트를 담당하는 역할
+    [SerializeField] protected List<UIEffect> otherUI; // 텍스트나 패널 등을 등록하는 역할
     public bool isOn;
     public int index;
 
@@ -61,12 +62,19 @@ public class UICluster : MonoBehaviour
         uiList[index].Activate();
     }
 
-    public void ActivateAll(bool On)
+    public virtual void ActivateAll(bool On)
     {
         isOn = On;
         for(int i=0;i<uiList.Count;i++)
         {
             uiList[i].gameObject.SetActive(On);
+        }
+        if (otherUI != null)
+        {
+            for (int i = 0; i < otherUI.Count; i++)
+            {
+                otherUI[i].gameObject.SetActive(On);
+            }
         }
     }
 
