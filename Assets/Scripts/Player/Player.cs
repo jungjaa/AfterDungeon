@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
         if (DataAdmin.instance.GetData(DataType.game_world) >= 0 && DataAdmin.instance.GetData(DataType.game_stage) >= 0)
         {
             SetSpawnPos(FindObjectOfType<SpawnController>().transform.GetChild(DataAdmin.instance.GetData(DataType.game_stage)).GetComponent<SpawnRegion>().spawnPositionObject.transform.position);
+            transform.position = FindObjectOfType<SpawnController>().transform.GetChild(DataAdmin.instance.GetData(DataType.game_stage)).GetComponent<SpawnRegion>().spawnPositionObject.transform.position;
         }
         else
             SetSpawnPos(transform.position);
@@ -59,7 +60,7 @@ public class Player : MonoBehaviour
         {
             SpawnController.instance.Respawn();
             transform.position = originPos;
-            GetDamage(0.5f);
+            GetFalseDamage(0.5f);
         }
         if (canControl && Time.timeScale>0)
         {
@@ -98,9 +99,17 @@ public class Player : MonoBehaviour
 
         StartCoroutine(Die(duration));
     }
+    public void GetFalseDamage(float duration = 2f)
+    {
+        if (!canControl) return;
+        canControl = false;
+
+        StartCoroutine(Die(duration));
+    }
 
     public void SetSpawnPos(Vector2 value, float x = 0, float y = 0, int num = -999)
     {
+        Debug.Log("Spawn set: "+ value);
         originPos = value;
         //transform.position = value;
         GetComponent<Rigidbody2D>().velocity = new Vector2(x,y);

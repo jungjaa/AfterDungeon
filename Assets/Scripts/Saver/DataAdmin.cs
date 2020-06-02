@@ -53,6 +53,7 @@ public class DataAdmin : MonoBehaviour
         WorldNum.Add("2-1", 2);
         WorldNum.Add("2-2", 3);
         WorldNum.Add("3", 4);
+        WorldNum.Add("Test", 999);
     }
     // Update is called once per frame
     void Update()

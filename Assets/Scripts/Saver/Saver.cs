@@ -23,12 +23,14 @@ public class Saver : MonoBehaviour
         }
         else
         {
+
         }
     }
 
     public static void SaveData(int slotNum)
     {
         PlayerPrefs.SetInt("stageNum_" + slotNum.ToString(), FindObjectOfType<Player>().stageNum);
+        Debug.Log(FindObjectOfType<Player>().stageNum);
         PlayerPrefs.SetInt("worldNum_" + slotNum.ToString(), DataAdmin.instance.GetWorldNum(SceneManager.GetActiveScene().name));
         PlayerPrefs.SetInt("deathNum_" + slotNum.ToString(), DataAdmin.instance.GetData(DataType.deathNum));
         PlayerPrefs.SetInt("saveType_" + slotNum.ToString(), (int)SaveType.Stage);

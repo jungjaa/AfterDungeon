@@ -47,7 +47,6 @@ public class SaveSlots : UIEffect
     public override void Select()
     {
         Saver.LoadData(slotNum);
-        DataAdmin.instance.SetData(DataType.slotNum, slotNum);
-        GetComponent<Button>().onClick.Invoke();
+        //GetComponent<Button>().onClick.Invoke();
     }
 }
