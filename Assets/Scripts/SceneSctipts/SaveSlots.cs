@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SaveSlots : UIEffect
 {
@@ -53,7 +54,13 @@ public class SaveSlots : UIEffect
     }
     public override void Select()
     {
-        Saver.LoadData(slotNum);
+        if(hasData)
+            Saver.LoadData(slotNum);
+        else
+        {
+            DataAdmin.instance.SetData(DataType.slotNum, slotNum);
+            SceneManager.LoadScene("0_Re");
+        }
         //GetComponent<Button>().onClick.Invoke();
     }
 }
