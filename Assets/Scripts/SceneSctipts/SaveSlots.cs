@@ -14,7 +14,7 @@ public class SaveSlots : UIEffect
     public Text WorldNumText;
     public Text deathNumText;
 
-    private bool hasData;
+    [SerializeField]private bool hasData;
     public bool HasData
     {
         get
@@ -23,12 +23,12 @@ public class SaveSlots : UIEffect
         }
     }
 
-    private void Start()
+    private void Awake()
     {
         hasData = PlayerPrefs.HasKey("worldNum_" + slotNum.ToString());
         if(!hasData)
         {
-            for(int i=0;i<transform.childCount;i++)
+            for (int i=0;i<transform.childCount;i++)
             {
                 transform.GetChild(i).gameObject.SetActive(false);
             }
