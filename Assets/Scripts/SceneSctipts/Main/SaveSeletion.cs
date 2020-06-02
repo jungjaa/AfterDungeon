@@ -32,10 +32,38 @@ public class SaveSeletion : UICluster
             }
         }
     }
-    /*
+    
     public void LoadGame()
     {
         SceneManager.LoadScene("0_Re");
     }
-    */
+
+    public override void ActivateAll(bool On)
+    {
+        bool isthereData = false;
+        for(int i=0;i<transform.childCount;i++)
+        {
+            isthereData = transform.GetChild(i).GetComponent<SaveSlots>().HasData ? true : isthereData;
+        }
+        if(isthereData)
+        {
+            for (int i = 0; i < uiList.Count; i++)
+            {
+                uiList[i].gameObject.SetActive(On);
+            }
+            if (otherUI != null)
+            {
+                for (int i = 0; i < otherUI.Count; i++)
+                {
+                    otherUI[i].gameObject.SetActive(On);
+                }
+            }
+        }
+        else
+        {
+            LoadGame();
+            isOn = On;
+
+        }
+    }
 }

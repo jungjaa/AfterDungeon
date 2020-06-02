@@ -15,6 +15,13 @@ public class SaveSlots : UIEffect
     public Text deathNumText;
 
     private bool hasData;
+    public bool HasData
+    {
+        get
+        {
+            return hasData;
+        }
+    }
 
     private void Start()
     {
