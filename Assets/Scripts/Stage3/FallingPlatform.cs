@@ -7,6 +7,7 @@ public class FallingPlatform : ResetableObject
     private float elapsed = 0f;
 
     private bool isFalling = false;
+    private bool fallStarted = false;
     private FallingPlatform left = null;
     private FallingPlatform right = null;
 
@@ -102,6 +103,7 @@ public class FallingPlatform : ResetableObject
             return;
 
         isFalling = true;
+        fallStarted = true;
         if (left != null)
             left.RecursiveFalling();
         if (right != null)
@@ -129,10 +131,14 @@ public class FallingPlatform : ResetableObject
 
     public override void Reset()
     {
-        isFalling = false;
-        rb2D.velocity = Vector2.zero;
-        elapsed = 0;
-        transform.position = originPos;
+        if (fallStarted)
+        {
+            fallStarted = false;
+            isFalling = false;
+            rb2D.velocity = Vector2.zero;
+            elapsed = 0;
+            transform.position = originPos;
+        }
     }
 
 }
