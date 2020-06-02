@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     private float fireButtonTime = 0f;
 
     private Vector2 originPos;
+    public int stageNum;
 
     [SerializeField]private InGameMenu escMenu;
 
@@ -35,7 +36,12 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        SetSpawnPos(transform.position);
+        if (DataAdmin.instance.GetData(DataType.game_world) >= 0 && DataAdmin.instance.GetData(DataType.game_stage) >= 0)
+        {
+            SetSpawnPos(FindObjectOfType<SpawnController>().transform.GetChild(DataAdmin.instance.GetData(DataType.game_stage)).GetComponent<SpawnRegion>().spawnPositionObject.transform.position);
+        }
+        else
+            SetSpawnPos(transform.position);
         escMenu = (InGameMenu)FindObjectOfType(typeof(InGameMenu));
     }
 
@@ -86,17 +92,20 @@ public class Player : MonoBehaviour
 
     public void GetDamage(float duration = 2f)
     {
+        DataAdmin.instance.IncrementData(DataType.deathNum);
         if (!canControl) return;
         canControl = false;
 
         StartCoroutine(Die(duration));
     }
 
-    public void SetSpawnPos(Vector2 value, float x = 0, float y = 0)
+    public void SetSpawnPos(Vector2 value, float x = 0, float y = 0, int num = -999)
     {
         originPos = value;
         //transform.position = value;
         GetComponent<Rigidbody2D>().velocity = new Vector2(x,y);
+        if (num != -999)
+            stageNum = num;
     }
 
     private IEnumerator Die(float duration)

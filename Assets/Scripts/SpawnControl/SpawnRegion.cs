@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -48,7 +49,7 @@ public class SpawnRegion : MonoBehaviour
 
     public void SetSpawn(Player player)
     {
-        player.SetSpawnPos(spawnPosition, player.gameObject.GetComponent<Rigidbody2D>().velocity.x, player.gameObject.GetComponent<Rigidbody2D>().velocity.y);
+        player.SetSpawnPos(spawnPosition, player.gameObject.GetComponent<Rigidbody2D>().velocity.x, player.gameObject.GetComponent<Rigidbody2D>().velocity.y, transform.GetSiblingIndex());
     }
 
 }
