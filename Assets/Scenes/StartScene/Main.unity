@@ -1435,6 +1435,7 @@ MonoBehaviour:
   slotNumText: {fileID: 1019009590}
   WorldNumText: {fileID: 1135267117}
   deathNumText: {fileID: 1549542953}
+  hasData: 0
 --- !u!114 &1178970336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2426,6 +2427,7 @@ MonoBehaviour:
   slotNumText: {fileID: 630448511}
   WorldNumText: {fileID: 827897630}
   deathNumText: {fileID: 652334349}
+  hasData: 0
 --- !u!114 &1831081345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2748,6 +2750,7 @@ MonoBehaviour:
   slotNumText: {fileID: 1288378079}
   WorldNumText: {fileID: 439137278}
   deathNumText: {fileID: 1263160267}
+  hasData: 0
 --- !u!1 &1935641655
 GameObject:
   m_ObjectHideFlags: 0
