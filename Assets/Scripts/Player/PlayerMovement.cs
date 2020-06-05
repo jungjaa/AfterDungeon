@@ -513,7 +513,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         rb2D.velocity = new Vector2(x, y);
-        Flip(x);
+        //Flip(x);
         //animator.SetTrigger("Jump");
 
         if (duration != 0)
@@ -556,6 +556,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if(wallState==WallState.upSlide && rb2D.velocity.y<=0)
             {
+                animator.SetBool("Wall", true);
                 wallState = WallState.Slide;
             }
 
