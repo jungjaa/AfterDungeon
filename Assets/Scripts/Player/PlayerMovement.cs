@@ -93,6 +93,7 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("벽점프 이후 조작 강탈 시간")]
     [SerializeField] private float wallJumpExtortionTime;
 
+
     private Vector2 groundBox = new Vector2(0.7f, 0.2f);
     private Vector2 wallBox = new Vector2(0.2f, 1.2f);
     private Vector2 fireBox = new Vector3(1f,0.15f);
@@ -169,6 +170,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Debug.Log("Local Scale: " + transform.localScale);
+        Debug.Log("Sprite: " + GetComponent<SpriteRenderer>().sprite.name);
         VelocityLimit();
         isGrounded = GroundChecking();
         closestWall = WallChecking();
@@ -426,6 +429,7 @@ public class PlayerMovement : MonoBehaviour
 
         lastWallTime = -999f;
         wallState = WallState.None;
+        
     }
 
     // Control only horizontal velocity
@@ -440,6 +444,7 @@ public class PlayerMovement : MonoBehaviour
                 return;
 
         }
+        Flip(dir);
 
 
         float nowV = rb2D.velocity.x;
@@ -476,8 +481,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         rb2D.velocity = new Vector2(nowV, rb2D.velocity.y);
-        if(Mathf.Abs(nowV)>0.01f)
-            Flip(nowV);
+        //if(Mathf.Abs(nowV)>0.01f)
+          //  Flip(dir);
     }
 
     private void ApplyJumpVelocity(float x, float y, float duration = 0f)
@@ -513,7 +518,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         rb2D.velocity = new Vector2(x, y);
-        //Flip(x);
+        Flip(x);
         //animator.SetTrigger("Jump");
 
         if (duration != 0)
@@ -556,7 +561,6 @@ public class PlayerMovement : MonoBehaviour
             }
             else if(wallState==WallState.upSlide && rb2D.velocity.y<=0)
             {
-                animator.SetBool("Wall", true);
                 wallState = WallState.Slide;
             }
 
@@ -616,8 +620,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Flip(float dir)
     {
+        
         if (Mathf.Abs(dir) < 0.2f) return;
         if (dir > 0 == IsFacingRight) return;
+
 
         isFacingRight = !isFacingRight;
 
