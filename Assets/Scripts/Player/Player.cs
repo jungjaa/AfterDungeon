@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] private bool canControl = true;
 
     private PlayerMovement mover;
-    private Animator animator;
+    [SerializeField]private Animator animator;
     private float horizontal = 0;
     private bool jump = false;
     private bool dash = false;

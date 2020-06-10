@@ -98,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 wallBox = new Vector2(0.2f, 1.2f);
     private Vector2 fireBox = new Vector3(1f,0.15f);
     private Rigidbody2D rb2D;
-    private Animator animator;
+    [SerializeField]private Animator animator;
 
     private bool isFacingRight = true;
     private bool isGravityControlled;
@@ -161,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
     {
         elapsed = 0f;
         rb2D = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
         
         rb2D.gravityScale = originGravity;
         isFired = false;
@@ -170,8 +170,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log("Local Scale: " + transform.localScale);
-        Debug.Log("Sprite: " + GetComponent<SpriteRenderer>().sprite.name);
         VelocityLimit();
         isGrounded = GroundChecking();
         closestWall = WallChecking();
