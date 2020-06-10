@@ -327,7 +327,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isFired == false&&FireChecking())
         {
-            GameObject projectile = Instantiate(projectilePrefab, (transform.position + fireChecker.position)/2, Quaternion.identity);
+            GameObject projectile = Instantiate(projectilePrefab, (transform.position + fireChecker.position) / 2, (transform.localScale.x > 0 ? Quaternion.identity : Quaternion.Euler(0, 180, 0)));
             projectile.GetComponent<ProjectileController>().Initialize(IsFacingRight, fireVelocity, maxDistance,this);
             isFired = true;
             this.projectile = projectile.GetComponent<ProjectileController>();

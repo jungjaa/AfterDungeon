@@ -121,6 +121,7 @@ public class ProjectileController : MonoBehaviour
     {
         if (coll.tag == "Player" && !isEnd)
         {
+            Debug.Log("Projectile out of player");
             if (isPlayerThere) isPlayerThere = false;
             bc2D.isTrigger = false; // 추가된 부분
         }
