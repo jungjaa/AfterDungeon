@@ -597,13 +597,13 @@ public class PlayerMovement : MonoBehaviour
             float target = value;
             if (target < 25 && stamina >= 25)
             {
-                GetComponent<SpriteRenderer>().DOColor(new Color(1, 0.5f, 0.5f), 0.15f)
-                    .SetEase(Ease.Linear).SetLoops(-1, LoopType.Restart);
+                //GetComponent<SpriteRenderer>().DOColor(new Color(1, 0.5f, 0.5f), 0.15f)
+                 //   .SetEase(Ease.Linear).SetLoops(-1, LoopType.Restart);
             }
             else if(target >= 25)
             {
-                GetComponent<SpriteRenderer>().DOKill();
-                GetComponent<SpriteRenderer>().color = Color.white;
+               // GetComponent<SpriteRenderer>().DOKill();
+                //GetComponent<SpriteRenderer>().color = Color.white;
             }
 
             stamina = target;

@@ -31,7 +31,6 @@ public class Player : MonoBehaviour
     {
         fireButtonTime = 0f;
         mover = GetComponent<PlayerMovement>();
-        animator = GetComponent<Animator>();
     }
 
     private void Start()
