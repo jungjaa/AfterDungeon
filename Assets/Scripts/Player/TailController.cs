@@ -10,6 +10,7 @@ public class TailController : MonoBehaviour
     private bool isOn = false;
     private float limit;
     private Rigidbody2D rb2D;
+    private float direction;
 
     private SpriteRenderer spr;
 
@@ -23,7 +24,7 @@ public class TailController : MonoBehaviour
     {
         if(isOn)
         {
-            rb2D.velocity = new Vector2(rb2D.velocity.x -2f < -4 ? rb2D.velocity.x -2f: -4, rb2D.velocity.y-2f);
+            rb2D.velocity = new Vector2(Mathf.Abs(rb2D.velocity.x - direction * 2f) < 4 ? rb2D.velocity.x - direction * 2f: -4 * direction, rb2D.velocity.y-2f);
             elapsed += Time.deltaTime;
             if(elapsed>limit)
             {
@@ -37,10 +38,11 @@ public class TailController : MonoBehaviour
             spr.color = new Color(1, 1, 1, (limit - elapsed*0.8f) / limit);
         }
     }
-    public void Initiate(float dashtime)
+    public void Initiate(float dashtime, float dir)
     {
         if (!isOn)
         {
+            direction = dir;
             spr.sprite = normalTail;
             spr.color = new Color(1f, 1f, 1f, 1f);
             limit = dashtime;

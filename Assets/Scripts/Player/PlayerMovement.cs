@@ -376,7 +376,7 @@ public class PlayerMovement : MonoBehaviour
             if(spr.sprite.name == "ch_dashbody2" || spr.sprite.name == "ch_dashbody3")
             {
                 Tail.gameObject.SetActive(true);
-                Tail.Initiate(dashingTime);
+                Tail.Initiate(dashingTime, transform.localScale.x);
             }
             float elapsed = Time.time - startTime;
             if(elapsed<dashingTime/4-Time.deltaTime)
