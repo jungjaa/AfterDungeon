@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     private Vector2 originPos;
     public int stageNum;
 
-    [SerializeField]private InGameMenu escMenu;
+    private InGameMenu escMenu;
 
 
     private void Awake()

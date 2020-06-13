@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool isDashed;
     [SerializeField] private bool isFired;
     [SerializeField] public bool isPlatform;
+    public SpriteRenderer spr;
     //private bool projumped;
 
 
@@ -41,6 +42,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Vector2 jumpVelocity;
     [Tooltip("대쉬 속도 (오른쪽 대쉬 기준)")]
     [SerializeField] private Vector2 dashVelocity;
+    [Tooltip("대쉬시 떨어지는 꼬리")]
+    [SerializeField] private TailController Tail;
+    [SerializeField] private Transform tailPosition;
     [Tooltip("지면으로 인정할 Layer")]
     [SerializeField] private LayerMask whatIsGround;
     [Tooltip("지면 존재 유무를 판정할 위치")]
@@ -364,9 +368,16 @@ public class PlayerMovement : MonoBehaviour
     }
     private IEnumerator DashMove(float x, float y, float dashingTime)
     {
+        animator.SetTrigger("Dash");
+        animator.SetBool("isDashing", true);
         float startTime = Time.time;
         while((Time.time-startTime<dashingTime)&&!isJumping)
         {
+            if(spr.sprite.name == "ch_dashbody2" || spr.sprite.name == "ch_dashbody3")
+            {
+                Tail.gameObject.SetActive(true);
+                Tail.Initiate(dashingTime);
+            }
             float elapsed = Time.time - startTime;
             if(elapsed<dashingTime/4-Time.deltaTime)
             {
@@ -385,7 +396,10 @@ public class PlayerMovement : MonoBehaviour
             }
             yield return null;
         }
-        
+        Tail.End(tailPosition.position);
+        animator.SetTrigger("DashEnd");
+        animator.SetBool("isDashing", false);
+
         isDashing = false;
         if (isGrounded)
             isDashed = false;
