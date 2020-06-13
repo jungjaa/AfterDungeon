@@ -157,7 +157,7 @@ public class Player : MonoBehaviour
     private IEnumerator FadeIn()
     {
         float rad = 0;
-
+        transform.position = originPos;
         FadeObject.SetActive(true);
         FadeObject.GetComponent<Renderer>().material.SetFloat("_CenterX", transform.position.x);
         FadeObject.GetComponent<Renderer>().material.SetFloat("_CenterY", transform.position.y);
@@ -187,6 +187,8 @@ public class Player : MonoBehaviour
 
     private IEnumerator Die(float duration)
     {
+        GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
+        GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
         animator.SetTrigger("Die");
         //GetComponent<SpriteRenderer>().DOKill();
         //GetComponent<SpriteRenderer>().color = Color.white;
@@ -197,8 +199,9 @@ public class Player : MonoBehaviour
 
         //animator.SetBool("Die", false);
         animator.SetTrigger("Respawn");
+        GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         StartCoroutine(FadeIn());
-        transform.position = originPos;
+        //transform.position = originPos; FadeIn으로 이동함
         //CanControl(true); FadeIn으로 이동함
     }
 
