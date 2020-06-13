@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     private bool stillfire = false;
     private bool fireUp = false;
 
+    private GameObject FadeObject;
+
     private float fireButtonTime = 0f;
 
     private Vector2 originPos;
@@ -31,6 +33,8 @@ public class Player : MonoBehaviour
     {
         fireButtonTime = 0f;
         mover = GetComponent<PlayerMovement>();
+        FadeObject = GameObject.FindGameObjectWithTag("FadeObejct");
+        FadeObject.SetActive(false);
     }
 
     private void Start()
@@ -47,6 +51,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+
         respawn = Input.GetButtonDown("Respawn");
         esc = Input.GetKeyDown(KeyCode.Escape);
         if (esc && escMenu != null)
@@ -96,6 +101,7 @@ public class Player : MonoBehaviour
         if (!canControl) return;
         canControl = false;
 
+        StartCoroutine(FadeOut());
         StartCoroutine(Die(duration));
     }
     public void GetFalseDamage(float duration = 2f)
@@ -103,6 +109,7 @@ public class Player : MonoBehaviour
         if (!canControl) return;
         canControl = false;
 
+        StartCoroutine(FadeOut());
         StartCoroutine(Die(duration));
     }
 
@@ -116,17 +123,36 @@ public class Player : MonoBehaviour
             stageNum = num;
     }
 
+    private IEnumerator FadeOut()
+    {
+        float rad = 20;
+
+        FadeObject.SetActive(true);
+        FadeObject.transform.localPosition = new Vector3(0f, 0f, 1f);
+        FadeObject.GetComponent<Renderer>().material.SetFloat("_CenterX", transform.position.x);
+        FadeObject.GetComponent<Renderer>().material.SetFloat("_CenterY", transform.position.y);
+        while (rad>0)
+        {
+            FadeObject.GetComponent<Renderer>().material.SetFloat("_Radius", rad);
+            rad -= 0.8f;
+            yield return null;
+        }
+
+
+       FadeObject.SetActive(false);
+    }
+
     private IEnumerator Die(float duration)
     {
-        animator.SetBool("Die", true);
-        GetComponent<SpriteRenderer>().DOKill();
-        GetComponent<SpriteRenderer>().color = Color.white;
+        animator.SetTrigger("Die");
+        //GetComponent<SpriteRenderer>().DOKill();
+        //GetComponent<SpriteRenderer>().color = Color.white;
         CanControl(false);
 
         yield return new WaitForSeconds(duration);
         ResetableObject.ResetAll();
 
-        animator.SetBool("Die", false);
+        //animator.SetBool("Die", false);
         transform.position = originPos;
         CanControl(true);
     }
