@@ -129,6 +129,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canControl: 1
   animator: {fileID: 6348338563590906185}
+  FadeObjectPrefab: {fileID: 410562717421112242, guid: 6335fa76957120141929cfb0eb1cf446,
+    type: 3}
   stageNum: 0
   escMenu: {fileID: 0}
 --- !u!114 &2664189598708974036
@@ -319,7 +321,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: a385e6b09e9e45d45a4b37709578c6b6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

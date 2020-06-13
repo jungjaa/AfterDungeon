@@ -12,7 +12,8 @@ TagManager:
   - Lever Platform
   - Item
   - Lever PlatformB
-  - FadeObejct
+  - FadeObject
+  - Camera
   layers:
   - Default
   - TransparentFX

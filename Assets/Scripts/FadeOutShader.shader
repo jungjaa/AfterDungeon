@@ -62,7 +62,7 @@
                 // apply fog
                 //UNITY_APPLY_FOG(i.fogCoord, col);
 				if (distance > _Radius * _Radius)
-					return col;
+					return fixed4(0, 0, 0, 1);
 				else
 					return fixed4(col.xyz, 0);
             }
