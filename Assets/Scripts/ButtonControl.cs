@@ -7,6 +7,7 @@ public class ButtonControl : MonoBehaviour
     [SerializeField] private Sprite unPressed;
     [SerializeField] private Sprite Pressed;
     public float offset;
+    public float changeTime;
     private Sprite next;
     SpriteRenderer spr;
     private float elapsed;
@@ -31,7 +32,7 @@ public class ButtonControl : MonoBehaviour
             spr.sprite = next;
             next = temp;
         }
-        else if(elapsed>0.22f && isChanged)
+        else if(elapsed>changeTime && isChanged)
         {
             Sprite temp = spr.sprite;
             spr.sprite = next;
