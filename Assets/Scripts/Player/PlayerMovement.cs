@@ -434,13 +434,22 @@ public class PlayerMovement : MonoBehaviour
 
     private void WallJump()
     {
-        //projumped = true;
-        if (closestWall == 1) ApplyJumpVelocity(-slidingJumpVelocity.x, slidingJumpVelocity.y, wallJumpExtortionTime);
-        else if(closestWall == -1) ApplyJumpVelocity(slidingJumpVelocity.x, slidingJumpVelocity.y, wallJumpExtortionTime);
+        wallState = WallState.None;
+        animator.SetBool("Wall", false);
+        if (closestWall == 1)
+        {
+            closestWall = null;
+            ApplyJumpVelocity(-slidingJumpVelocity.x, slidingJumpVelocity.y, wallJumpExtortionTime);
+        }
+        else if (closestWall == -1)
+        {
+            closestWall = null;
+            ApplyJumpVelocity(slidingJumpVelocity.x, slidingJumpVelocity.y, wallJumpExtortionTime);
+        }
         Debug.Log("Wall Jump : " + rb2D.velocity);
 
         lastWallTime = -999f;
-        wallState = WallState.None;
+
         
     }
 
@@ -449,15 +458,25 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isJumping) return;
 
-        if((wallState==WallState.Slide || wallState == WallState.upSlide) && IsFacingRight != isWallRight)
+        if((wallState==WallState.Slide || wallState == WallState.upSlide) && IsFacingRight != dir>0)
         {
             elapsed += Time.deltaTime;
             if (elapsed < detachWallTime)
+            {
                 return;
-
+            }
+            else
+            {
+                closestWall = null;
+                wallState = WallState.None;
+                Flip(dir);
+                animator.SetBool("Wall", false);
+                return;
+            }
+ 
         }
+        if (wallState != WallState.None) return;
         Flip(dir);
-
 
         float nowV = rb2D.velocity.x;
 
@@ -493,8 +512,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         rb2D.velocity = new Vector2(nowV, rb2D.velocity.y);
-        //if(Mathf.Abs(nowV)>0.01f)
-          //  Flip(dir);
     }
 
     private void ApplyJumpVelocity(float x, float y, float duration = 0f)
@@ -633,7 +650,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Flip(float dir)
     {
-        
         if (Mathf.Abs(dir) < 0.2f) return;
         if (dir > 0 == IsFacingRight) return;
 
