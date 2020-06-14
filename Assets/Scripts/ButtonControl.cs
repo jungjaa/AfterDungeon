@@ -6,13 +6,15 @@ public class ButtonControl : MonoBehaviour
 {
     [SerializeField] private Sprite unPressed;
     [SerializeField] private Sprite Pressed;
+    public float offset;
     private Sprite next;
     SpriteRenderer spr;
-    private float elapsed = 0f;
+    private float elapsed;
     private bool isChanged = false;
 
     void Start()
     {
+        elapsed = offset;
         spr = GetComponent<SpriteRenderer>();
         spr.sprite = unPressed;
         next = Pressed;
