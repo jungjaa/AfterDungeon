@@ -103,6 +103,7 @@ public class Player : MonoBehaviour
 
     public void GetDamage(float duration = 0.8f)
     {
+        mover.FireEnd();
         DataAdmin.instance.IncrementData(DataType.deathNum);
         if (!canControl) return;
         canControl = false;
