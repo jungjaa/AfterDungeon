@@ -397,7 +397,6 @@ public class PlayerMovement : MonoBehaviour
             yield return null;
         }
         Tail.End(tailPosition.position);
-        animator.SetTrigger("DashEnd");
         animator.SetBool("isDashing", false);
 
         isDashing = false;
