@@ -569,10 +569,11 @@ public class PlayerMovement : MonoBehaviour
                 if (wallState==WallState.None)
                     elapsed = 0;
                 wallState = WallState.upSlide;
-                animator.SetBool("Wall", true);
+                //animator.SetBool("Wall", true);
             }
             else if(wallState==WallState.upSlide && rb2D.velocity.y<=0)
             {
+                animator.SetBool("Wall", true);
                 wallState = WallState.Slide;
             }
 
