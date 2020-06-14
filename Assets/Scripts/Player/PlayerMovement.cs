@@ -735,6 +735,11 @@ public class PlayerMovement : MonoBehaviour
         {
             projectileTime = longFireTime;
         }
+
+        if(projectile!=null)
+        {
+            projectile.SetLimit(projectileTime);
+        }
     }
 
     public void DashRefill()
