@@ -9,6 +9,7 @@ using DG.Tweening;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Current State")]
     [SerializeField] private bool isGrounded;
     [SerializeField] private bool isJumping;
     [SerializeField] private bool isDashed;
@@ -746,7 +747,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void DashRefill()
     {
-        isDashed = false;
+        if (isDashed)
+        {
+            isDashed = false;
+            SetTrigger("DashEnd");
+        }
     }
     
     public void FireEnd()

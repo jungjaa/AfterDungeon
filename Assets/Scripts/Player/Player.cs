@@ -5,6 +5,9 @@ using DG.Tweening;
 [RequireComponent(typeof(PlayerMovement))]
 public class Player : MonoBehaviour
 {
+    [Header("Control State")]
+    public bool specialControl;
+    [SerializeField] private bool fireLock;
     [SerializeField] private bool canControl = true;
 
     private PlayerMovement mover;
@@ -72,7 +75,7 @@ public class Player : MonoBehaviour
             transform.position = originPos;
             GetFalseDamage(0.5f);
         }
-        if (canControl && Time.timeScale>0)
+        if (canControl && Time.timeScale>0 && !specialControl)
         {
             horizontal = Input.GetAxisRaw("Horizontal");
             jump = Input.GetButtonDown("Jump");
@@ -88,7 +91,7 @@ public class Player : MonoBehaviour
                     mover.SetProjectileTime(1.2f);
             }
         }
-        mover.Move(horizontal, jump, dash, fire);
+        mover.Move(horizontal, jump, dash, fireLock? false : fire);
         if (fireUp)
         {
             mover.SetProjectileTime(fireButtonTime);
