@@ -160,9 +160,10 @@ public class CameraController : MonoBehaviour
     {
         isCameraMoving = true;
         float sqrRemainingDistance = (controlcamera.transform.position - end).sqrMagnitude;
+        Time.timeScale = 0f;
         while (sqrRemainingDistance > float.Epsilon)
         {
-            Vector3 newPosition = Vector3.MoveTowards(controlcamera.transform.position, end, inverseMoveTime * Time.deltaTime);
+            Vector3 newPosition = Vector3.MoveTowards(controlcamera.transform.position, end, inverseMoveTime * Time.fixedDeltaTime);
             controlcamera.transform.position = newPosition;
             sqrRemainingDistance = (controlcamera.transform.position - end).sqrMagnitude;
             //Debug.Log(camera.transform.position);
@@ -170,6 +171,7 @@ public class CameraController : MonoBehaviour
             //Debug.Log("Move!");
             yield return null;
         }
+        Time.timeScale = 1f;
         isCameraMoving = false;
     }
 }
