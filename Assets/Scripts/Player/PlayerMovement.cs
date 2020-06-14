@@ -62,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("발사 버튼 누른 시간이 길었을 때 화살 존재 시간")]
     [SerializeField] private float longFireTime;
     private ProjectileController projectile;
+    private float projectileTime = 1.5f;
 
     public enum WallState { None, Slide, upSlide}
     [Header("Wall Movement")]
@@ -100,9 +101,10 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 groundBox = new Vector2(0.7f, 0.2f);
     private Vector2 wallBox = new Vector2(0.2f, 1.2f);
-    private Vector2 fireBox = new Vector3(1f,0.15f);
+    private Vector2 fireBox = new Vector3(1f,0.4f);
     private Rigidbody2D rb2D;
-    [SerializeField]private Animator animator;
+    [SerializeField] private Animator animator;
+    [SerializeField] private Animator animator2;
 
     private bool isFacingRight = true;
     private bool isGravityControlled;
@@ -165,7 +167,6 @@ public class PlayerMovement : MonoBehaviour
     {
         elapsed = 0f;
         rb2D = GetComponent<Rigidbody2D>();
-        //animator = GetComponent<Animator>();
         
         rb2D.gravityScale = originGravity;
         isFired = false;
@@ -239,7 +240,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            animator.SetBool("IsGrounded", false);
+            SetBool("IsGrounded", false);
             return false;
         }
     }
@@ -267,6 +268,7 @@ public class PlayerMovement : MonoBehaviour
                 if (colls[i].gameObject.GetComponent<ContactArrow>() != null)
                 {
                     colls[i].gameObject.GetComponent<ContactArrow>().OnLodgingEnterAction(null);
+
                     break;
                 }
             }
@@ -276,9 +278,26 @@ public class PlayerMovement : MonoBehaviour
             return true;
     }
 
+    private bool ContactChecking()
+    {
+        Collider2D[] colls = Physics2D.OverlapBoxAll(FireCheckPos, fireBox, 0, whatIsWall);
+        if (colls.Length != 0)
+        {
+            for (int i = 0; i < colls.Length; i++)
+            {
+                if (colls[i].gameObject.GetComponent<ContactArrow>() != null)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
+
     private void GroundingEvent()
     {
-        animator.SetBool("IsGrounded", true);
+        SetBool("IsGrounded", true);
         Stamina = totalStamina;
         isDashed = false;
     }
@@ -298,7 +317,7 @@ public class PlayerMovement : MonoBehaviour
         if (jump) lastJumpInputTime = Time.time;
         if (isGrounded && (rb2D.velocity.y<=0 || isPlatform))
         {
-            animator.SetBool("IsJumping", false); // 애니메이션 추가
+            SetBool("IsJumping", false); // 애니메이션 추가
         }
 
         GrabWall(horizontal);
@@ -310,12 +329,12 @@ public class PlayerMovement : MonoBehaviour
             if (fire) Fire(horizontal);
         }
 
-        animator.SetFloat("Jump Speed", rb2D.velocity.y);
+        SetFloat("Jump Speed", rb2D.velocity.y);
     }
 
     private void JumpingMovement(float horizontal)
     {
-        animator.SetBool("IsJumping", true);
+        SetBool("IsJumping", true);
         Debug.Log("Is Ground = " + isGrounded
             + " Closest Wall = " + closestWall
             + " Wall State = " + wallState
@@ -331,10 +350,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isFired == false&&FireChecking())
         {
+            SetTrigger("Fire");
+            isFired = true;
+            
             GameObject projectile = Instantiate(projectilePrefab, (transform.position + fireChecker.position) / 2, (transform.localScale.x > 0 ? Quaternion.identity : Quaternion.Euler(0, 180, 0)));
             projectile.GetComponent<ProjectileController>().Initialize(IsFacingRight, fireVelocity, maxDistance,this);
-            isFired = true;
             this.projectile = projectile.GetComponent<ProjectileController>();
+            this.projectile.SetLimit(projectileTime);
+            LoseScarf();
+            
+           // StartCoroutine(ShootMotion());
 
             if (isGrounded == false)
             {
@@ -346,7 +371,20 @@ public class PlayerMovement : MonoBehaviour
                 else ApplyJumpVelocity(0, y);
             }
         }
+        else if(isFired==false && ContactChecking())
+        {
+            if (isGrounded == false)
+            {
+                //projumped = true;
+                float x = fireJumpVelocity.x;
+                float y = fireJumpVelocity.y;
+                if (horizontal > 0) ApplyJumpVelocity(x, y);
+                else if (horizontal < 0) ApplyJumpVelocity(-x, y);
+                else ApplyJumpVelocity(0, y);
+            }
+        }
     }
+
     
     private void Dash(float horizontal)
     {
@@ -368,8 +406,8 @@ public class PlayerMovement : MonoBehaviour
     }
     private IEnumerator DashMove(float x, float y, float dashingTime)
     {
-        animator.SetTrigger("Dash");
-        animator.SetBool("isDashing", true);
+        SetTrigger("Dash");
+        SetBool("isDashing", true);
         float startTime = Time.time;
         while((Time.time-startTime<dashingTime)&&!isJumping)
         {
@@ -397,7 +435,7 @@ public class PlayerMovement : MonoBehaviour
             yield return null;
         }
         Tail.End(tailPosition.position);
-        animator.SetBool("isDashing", false);
+        SetBool("isDashing", false);
 
         isDashing = false;
         if (isGrounded)
@@ -434,7 +472,7 @@ public class PlayerMovement : MonoBehaviour
     private void WallJump()
     {
         wallState = WallState.None;
-        animator.SetBool("Wall", false);
+        SetBool("Wall", false);
         if (closestWall == 1)
         {
             closestWall = null;
@@ -469,7 +507,7 @@ public class PlayerMovement : MonoBehaviour
                 closestWall = null;
                 wallState = WallState.None;
                 Flip(dir);
-                animator.SetBool("Wall", false);
+                SetBool("Wall", false);
                 return;
             }
  
@@ -547,7 +585,6 @@ public class PlayerMovement : MonoBehaviour
 
         rb2D.velocity = new Vector2(x, y);
         Flip(x);
-        //animator.SetTrigger("Jump");
 
         if (duration != 0)
         {
@@ -565,7 +602,7 @@ public class PlayerMovement : MonoBehaviour
         if (Stamina <= 0 || (isGrounded && rb2D.velocity.y <= 0))
         {
             wallState = WallState.None;
-            animator.SetBool("Wall", false);
+            SetBool("Wall", false);
         }
         else if (closestWall.HasValue /*&& (goRight == isFacingRight) && rb2D.velocity.y <= 0*/)
         {
@@ -576,7 +613,7 @@ public class PlayerMovement : MonoBehaviour
                 elapsed = 0;
                 rb2D.velocity = new Vector2(0, 0);
                 wallState = WallState.Slide;
-                animator.SetBool("Wall", true);
+                SetBool("Wall", true);
             }
             else if(rb2D.velocity.y > 0 && (goRight == isFacingRight))
             {
@@ -585,11 +622,10 @@ public class PlayerMovement : MonoBehaviour
                 if (wallState==WallState.None)
                     elapsed = 0;
                 wallState = WallState.upSlide;
-                //animator.SetBool("Wall", true);
             }
             else if(wallState==WallState.upSlide && rb2D.velocity.y<=0)
             {
-                animator.SetBool("Wall", true);
+                SetBool("Wall", true);
                 wallState = WallState.Slide;
             }
 
@@ -605,8 +641,7 @@ public class PlayerMovement : MonoBehaviour
         else 
         {
             wallState = WallState.None;
-            animator.SetBool("Wall", false);
-            //animator.SetBool("Wall Jump Ready", false);
+            SetBool("Wall", false);
         }
     }
 
@@ -691,15 +726,19 @@ public class PlayerMovement : MonoBehaviour
     }
     public void SetProjectileTime(float pressedTime)
     {
-        if (projectile == null)
-            return;
+
         if(pressedTime<=1.0f)
         {
-            projectile.SetLimit(shortFireTime);
+            projectileTime = shortFireTime;
         }
         else
         {
-            projectile.SetLimit(longFireTime);
+            projectileTime = longFireTime;
+        }
+
+        if(projectile!=null)
+        {
+            projectile.SetLimit(projectileTime);
         }
     }
 
@@ -711,5 +750,39 @@ public class PlayerMovement : MonoBehaviour
     public void FireEnd()
     {
         isFired = false;
+        if(projectile!=null)
+        {
+            Destroy(projectile.gameObject);
+        }
+        GetScarf();
     }
+
+    public void GetScarf()
+    {
+        animator.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        animator2.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+    }
+
+    public void LoseScarf()
+    {
+        animator2.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        animator.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+    }
+
+    private void SetFloat(string name, float number)
+    {
+        animator.SetFloat(name, number);
+        animator2.SetFloat(name, number);
+    }
+    private void SetBool(string name, bool number)
+    {
+        animator.SetBool(name, number);
+        animator2.SetBool(name, number);
+    }
+    private void SetTrigger(string name)
+    {
+        animator.SetTrigger(name);
+        animator2.SetTrigger(name);
+    }
+
 }
